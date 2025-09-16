@@ -6,10 +6,14 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 INCLUDES = Animal.hpp \
 			Dog.hpp \
 			Cat.hpp \
+			WrongAnimal.hpp \
+			WrongCat.hpp \
 
 SRCS = Animal.cpp \
 		Dog.cpp \
 		Cat.cpp \
+		WrongAnimal.cpp \
+		WrongCat.cpp \
 		main.cpp \
 
 OBJ = $(SRCS:.cpp=.o)

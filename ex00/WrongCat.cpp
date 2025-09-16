@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.cpp                                            :+:      :+:    :+:   */
+/*   WrongCat.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 09:51:30 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 11:14:46 by root             ###   ########.fr       */
+/*   Created: 2025/09/16 11:03:18 by root              #+#    #+#             */
+/*   Updated: 2025/09/16 11:46:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Dog.hpp"
+#include "WrongCat.hpp"
 
-Dog::Dog() : Animal()
+WrongCat::WrongCat() : WrongAnimal()
 {
-	std::cout << GREEN << "Dog Default Constructor called" 
+	std::cout << YELLOW << "WrongCat Default Constructor called" 
 				<< RESET << std::endl;
-	this->_type = "Dog";
-	this->_sound = "Guau Guau!!";
+	this->_type = "panther";
+	this->_sound = "GRRRRRR";
 }
 
-Dog::~Dog()
+WrongCat::~WrongCat()
 {
-	std::cout << GREEN << "Dog Destructor called" 
-				<< RESET << std::endl;
-}
-
-Dog::Dog(const Dog& other) : Animal(other)
-{
-	std::cout << GREEN << "Dog Copy Constructor called" 
+	std::cout << YELLOW << "WrongCat Destructor called" 
 				<< RESET << std::endl;
 }
 
-Dog&	Dog::operator=(const Dog& other)
+WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other)
 {
-	std::cout << GREEN << "Dog Assignment Operator called" 
+	std::cout << YELLOW << "WrongCat Copy Constructor called" 
+				<< RESET << std::endl;
+}
+
+WrongCat&	WrongCat::operator=(const WrongCat& other)
+{
+	std::cout << YELLOW <<  "WrongCat Assignment Operator called" 
 				<< RESET << std::endl;
 	if (this != &other)
-		Animal::operator=(other);
+		WrongAnimal::operator=(other);
 	return (*this);
 }

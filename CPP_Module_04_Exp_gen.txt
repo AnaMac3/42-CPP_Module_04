@@ -1,5 +1,11 @@
 CPP Module 04 Explicaciones Generales
-- ❌ ex00: funciona y bonito
+
+
+Cómo automatizar la creación de clases:
+- VSCode: configurar snuppets
+- Scripts en Shell -> newclass.sh
+
+- ✅ ex00: funciona
 - ❌ ex01
 - ❌ ex02
 - ❌ ex03 (no obligatorio)

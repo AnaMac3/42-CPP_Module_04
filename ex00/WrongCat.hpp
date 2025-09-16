@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*   WrongCat.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 09:51:34 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 11:14:04 by root             ###   ########.fr       */
+/*   Created: 2025/09/16 11:03:21 by root              #+#    #+#             */
+/*   Updated: 2025/09/16 11:33:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef WrpngCat_HPP
+# define WrpngCat_HPP
 
-# include "Animal.hpp"
+# include "WrongAnimal.hpp"
 
 # define RESET	"\033[0m"
-# define GREEN	"\033[32m"
+# define YELLOW	"\033[33m"
 
-class Dog : public Animal
+class WrongCat : public WrongAnimal
 {
 	public:
-		Dog();
-		~Dog();
-		Dog(const Dog& other);
-		Dog& operator=(const Dog& other);
+		WrongCat();
+		~WrongCat();
+		WrongCat(const WrongCat& other);
+		WrongCat& operator=(const WrongCat& other);
 };
 
 #endif

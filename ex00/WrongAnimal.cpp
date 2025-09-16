@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Animal.cpp                                         :+:      :+:    :+:   */
+/*   WrongAnimal.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 09:50:59 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 11:13:41 by root             ###   ########.fr       */
+/*   Created: 2025/09/16 11:03:11 by root              #+#    #+#             */
+/*   Updated: 2025/09/16 11:39:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Animal.hpp"
+#include "WrongAnimal.hpp"
 
-Animal::Animal() :	_type("Default"),
-					_sound("Sound")
+WrongAnimal::WrongAnimal() :	_type("Wrong Default"),
+								_sound("Noise")
 {
-	std::cout << BG_GREEN << "Animal Default Constructor called" 
+	std::cout << BG_YELLOW << "WrongAnimal Default Constructor called" 
 				<< RESET << std::endl;
 }
 
-Animal::~Animal()
+WrongAnimal::~WrongAnimal()
 {
-	std::cout << BG_GREEN << "Animal Destructor called" 
+	std::cout << BG_YELLOW << "WrongAnimal Destructor called" 
 				<< RESET << std::endl;
 }
 
-Animal::Animal(const Animal& other)
+WrongAnimal::WrongAnimal(const WrongAnimal& other)
 {
-	std::cout << BG_GREEN << "Animal Copy Constructor called" 
+	std::cout << BG_YELLOW << "WrongAnimal Copy Constructor called" 
 				<< RESET << std::endl;
 	*this = other;
 }
 
-Animal&	Animal::operator=(const Animal& other)
+WrongAnimal&	WrongAnimal::operator=(const WrongAnimal& other)
 {
-	std::cout << BG_GREEN << "Animal Assignment Operator called" 
+	std::cout << BG_YELLOW << "WrongAnimal Assignment Operator called" 
 				<< RESET << std::endl;
 	if (this != &other)
 	{
@@ -44,23 +44,23 @@ Animal&	Animal::operator=(const Animal& other)
 	return (*this);
 }
 
-std::string const	&Animal::getType() const
+std::string const	&WrongAnimal::getType() const
 {
 	return(this->_type);
 }
 
-void	Animal::setType(const std::string &type)
+void	WrongAnimal::setType(const std::string &type)
 {
 	this->_type = type;
 }
 
-void	Animal::setSound(const std::string &sound)
+void	WrongAnimal::setSound(const std::string &sound)
 {
 	this->_sound = sound;
 }
 
-void	Animal::makeSound() const
+void	WrongAnimal::makeSound() const
 {
-	std::cout << BLUE << this->_type << " makes: " << this->_sound 
+	std::cout << CYAN << this->_type << " makes: " << this->_sound 
 				<< RESET << std::endl;
 }
