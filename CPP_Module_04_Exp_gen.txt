@@ -7,5 +7,8 @@ Cómo automatizar la creación de clases:
 
 - ✅ ex00: funciona
 - ✅ ex01
-- ❌ ex02
+- ❌ ex02 -> empezado pero me falta... pasar todas las funciones que se usan a las clases hijas... Y entender qué es buena práctica en los casos anteriores: que todas las funciones aparezcan en todas las clases (base e hijas) o que en las hijas solo aparezcan las que cambian algo...????
 - ❌ ex03 (no obligatorio)
+
+
+Clases abstractas -> aquellas que tienen al menos una función virtual pura
