@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Brain.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:54:52 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 13:32:21 by root             ###   ########.fr       */
+/*   Updated: 2025/09/20 17:33:43 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 Brain::Brain()
 {
 	std::cout << BG_MAGENTA << "Brain Default Constructor called" 
-				<< RESET << std::endl;
-}
-
-Brain::~Brain()
-{
-	std::cout << BG_MAGENTA << "Brain Destructor called" 
 				<< RESET << std::endl;
 }
 
@@ -45,6 +39,12 @@ Brain&	Brain::operator=(const Brain& other)
 		//si _ideas fuera un std::array<std::string, 100> sí podríamos hacer _ideas=other._ideas, porque std::array tiene operador= sobrecargado
 	}
 	return (*this);
+}
+
+Brain::~Brain()
+{
+	std::cout << BG_MAGENTA << "Brain Destructor called" 
+				<< RESET << std::endl;
 }
 
 std::string const	&Brain::getIdea(int const &index) const

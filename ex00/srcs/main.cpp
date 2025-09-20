@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:25:18 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 11:44:32 by root             ###   ########.fr       */
+/*   Updated: 2025/09/20 17:22:47 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,35 @@ int	main()
 
 	std::cout << j->getType() << " " << std::endl;
 	std::cout << i->getType() << " " << std::endl;
+	
+	std::cout << std::endl;
+
+	meta->makeSound();
 	i->makeSound();
 	j->makeSound();
-	meta->makeSound();
+	
 
 	std::cout << std::endl;
+	std::cout << "----------------------" << std::endl;
 	
 	std::cout << "Animal without const, for using setters: " << std::endl;
 	Animal generic;
 	generic.setType("Horse");
-	generic.setSound("Hiiii Hiii!");
 	generic.makeSound();
+	std::cout << generic.getType() << " " << std::endl;
 
 	std::cout << std::endl; 
+	std::cout << "----------------------" << std::endl;
 
 	std::cout << "Using Assignment operator in Cat: " << std::endl;
 	Cat	cat1;
 	Cat cat2;
 
-	cat1.setSound("MIAAAAUUUUUUU!!!!!!");
 	cat2 = cat1;
 	cat2.makeSound(); //should be the same as cat1
 	
 	std::cout << std::endl;
+	std::cout << "----------------------" << std::endl;
 
 	std::cout << "Wrong Animal: " << std::endl;
 
@@ -55,6 +61,7 @@ int	main()
 	platypus.makeSound();
 
 	std::cout << std::endl;
+	std::cout << "----------------------" << std::endl;
 
 	std::cout << "Wrong Cat: " << std::endl;
 
@@ -63,18 +70,19 @@ int	main()
 	bageera.makeSound();
 	
 	std::cout << std::endl;
+	std::cout << "----------------------" << std::endl;
 
 	std::cout << "Using Copy Constructor: " << std::endl;
 	WrongCat pink_panther(bageera);
-	pink_panther.setSound("turu turu turu turuturuturu turuturuuuuuu");
 	pink_panther.makeSound();
 
 	std::cout << std::endl;
+	std::cout << "----------------------" << std::endl;
 	
 	std::cout << "Deleting..." << std::endl;
 	delete meta;
-	delete i; //only destructs Animal, because is Animal*
-	delete j; //onle destructs Animal, because is Animal*
+	delete i;
+	delete j;
 
 	std::cout << std::endl;
 	

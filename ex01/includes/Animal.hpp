@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Animal.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:04 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 15:52:32 by root             ###   ########.fr       */
+/*   Updated: 2025/09/20 17:27:02 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,26 @@
 # include "Brain.hpp"
 
 # define BG_GREEN	"\033[42m"
-# define BLUE		"\033[34m"
+# define BG_BLUE	"\033[44m"
 # define RESET		"\033[0m"
 
 class Animal
 {
+	protected:
+		std::string _type;
+
 	public:
 		Animal();
-		virtual ~Animal();
 		Animal(const Animal& other);
 		Animal& operator=(const Animal& other);
+		virtual ~Animal();
 
 		std::string const &getType() const;
 		void	setType(const std::string &type);
-		void	setSound(const std::string &sound);
 		
-		void	makeSound() const;
+		virtual void	makeSound() const;
+		virtual	Brain &getBrain(void) const = 0;
 
-		virtual	Brain &getBrain(void) const = 0; //virtual: must be redefined by child classes, dinamic polimorfism
-	
-	protected:
-		std::string _type;
-		std::string _sound;
 };
 
 #endif

@@ -3,27 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   Animal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:50:59 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 11:13:41 by root             ###   ########.fr       */
+/*   Updated: 2025/09/20 17:12:02 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Animal.hpp"
 
-Animal::Animal() :	_type("Default"),
-					_sound("Sound")
+/**
+ * @brief	Default constructor
+ * 
+ */
+
+Animal::Animal() :	_type("Default")
 {
 	std::cout << BG_GREEN << "Animal Default Constructor called" 
 				<< RESET << std::endl;
 }
 
-Animal::~Animal()
-{
-	std::cout << BG_GREEN << "Animal Destructor called" 
-				<< RESET << std::endl;
-}
+/**
+ * @brief	Copy constructor
+ * 
+ * @param other	Another Animal object to copy from
+ */
 
 Animal::Animal(const Animal& other)
 {
@@ -32,35 +36,61 @@ Animal::Animal(const Animal& other)
 	*this = other;
 }
 
+/**
+ * @brief	Assignment operator
+ * 
+ * @param other	Another Animal object to assign from
+ * @return	Reference to the current object
+ */
+
 Animal&	Animal::operator=(const Animal& other)
 {
 	std::cout << BG_GREEN << "Animal Assignment Operator called" 
 				<< RESET << std::endl;
 	if (this != &other)
-	{
 		this->_type = other._type;
-		this->_sound = other._sound;
-	}
 	return (*this);
 }
+
+/**
+ * @brief	Virtual destructor
+ * 
+ */
+
+Animal::~Animal()
+{
+	std::cout << BG_GREEN << "Animal Destructor called" 
+				<< RESET << std::endl;
+}
+
+/**
+ * @brief	Gets the type of the animal
+ * 
+ * @return	A constant referente to '_type'
+ */
 
 std::string const	&Animal::getType() const
 {
 	return(this->_type);
 }
 
+/**
+ * @brief	Sets the type of the animal
+ * 
+ * @param type	The new type as a string
+ */
+
 void	Animal::setType(const std::string &type)
 {
 	this->_type = type;
 }
 
-void	Animal::setSound(const std::string &sound)
-{
-	this->_sound = sound;
-}
+/**
+ * @brief	Produces a generic sund
+ * 
+ */
 
 void	Animal::makeSound() const
 {
-	std::cout << BLUE << this->_type << " makes: " << this->_sound 
-				<< RESET << std::endl;
+	std::cout << BG_BLUE << "**Default Sound**" << RESET << std::endl;
 }

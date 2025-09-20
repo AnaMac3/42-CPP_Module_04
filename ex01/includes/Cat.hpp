@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cat.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:22 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 15:43:45 by root             ###   ########.fr       */
+/*   Updated: 2025/09/20 17:29:09 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,32 @@
 
 # define RESET	"\033[0m"
 # define GREEN	"\033[32m"
+# define BLUE 	"\033[34m"
+
+/**
+ * @class	Cat
+ * @brief	Concrete class representing a cat.
+ * 			- Inherits publicly from 'Animal'.
+ * 			- Overrides 'makeSound()'
+ * AÑADOR INFO
+ * 
+ */
+
 
 class Cat : public Animal
 {
-	public:
-		Cat();
-		~Cat();
-		Cat(const Cat& other);
-		Cat& operator=(const Cat& other);
-
-		void	setBrain(const Brain& brain);
-		Brain&	getBrain() const; //not modify current object
-	
 	private:
 		Brain*	_brain;
+
+	public:
+		Cat();
+		Cat(const Cat& other);
+		Cat& operator=(const Cat& other);
+		~Cat();
+
+		void	makeSound() const;
+		void	setBrain(const Brain& brain);
+		Brain&	getBrain() const; //not modify current object
 };
 
 #endif
