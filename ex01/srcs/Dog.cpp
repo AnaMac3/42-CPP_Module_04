@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Dog.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:30 by root              #+#    #+#             */
-/*   Updated: 2025/09/20 17:32:54 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/21 17:34:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief	Default constructor
  * 			- Calls the base constructor
  * 			- Sets '_type' to "Dog"
- * AÑADIR COSAS
+ * 			- Allocates a new Brain instance
  */
 
 Dog::Dog() : Animal()
@@ -29,14 +29,11 @@ Dog::Dog() : Animal()
 
 /**
  * @brief	Copy constructor
- * 			- Delegates to the base copy constructor
+ * 			- Performs a deep copy of the other Dog, including Brain.
  * 
  * @param other	Another Dog object to copy from
  */
-/*deep copy:
-para que cada dog tenga su propio brain independiente
-se crea una copia real del contenido del brain.
-*/
+
 Dog::Dog(const Dog& other) :	Animal(other),
 								_brain(new Brain(*other._brain))
 {
@@ -47,6 +44,7 @@ Dog::Dog(const Dog& other) :	Animal(other),
 /**
  * @brief	Assignment operator
  * 			- Reuses the base class assignment operator
+ * 			- Performs a deep copy of the Brain
  * 
  * @param other	Another dog object to assign from
  * @return	Reference to the current object
@@ -67,7 +65,7 @@ Dog&	Dog::operator=(const Dog& other)
 
 /**
  * @brief	Destructor
- * AÑADIR COSAS
+ * 			- Releases allocated Brain memory
  */
 
 Dog::~Dog()
@@ -89,8 +87,9 @@ void	Dog::makeSound() const
 }
 
 /**
- * @brief	
+ * @brief	Replaces the content of the dog's Brain with another Brain.
  * 
+ * @param brain	A Brain object to copy from
  */
 
 void	Dog::setBrain(const Brain& brain)
@@ -99,8 +98,9 @@ void	Dog::setBrain(const Brain& brain)
 }
 
 /**
- * @brief	
+ * @brief	Provides acces to the Brain of the dog.
  * 
+ * @return Reference to the Brain owned by this dog.
  */
 
 Brain& Dog::getBrain() const

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cat.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:19 by root              #+#    #+#             */
-/*   Updated: 2025/09/20 17:31:28 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/21 17:31:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,26 @@
  * @brief	Default constructor
  * 			- Calls the base constructor
  * 			- Sets '_type' to "Cat"
- * AÑADIR COSAS
+ * 			- Allocates a new Brain instance
+ * 
  */
 
 Cat::Cat() : Animal()
 {
 	std::cout << GREEN << "Cat Default Constructor called" 
 				<< RESET << std::endl;
+			
 	this->_type = "Cat";
 	this->_brain = new Brain();
 }
 
 /**
  * @brief	Copy constructor
- * 			- Delegates to the base copy constructor
+ * 			- Performes a deep copy of the other Cat, including Brain.
  * 
  * @param other	Another Cat object to copy from
  */
-/*deep copy:
-para que cada dog tenga su propio brain independiente
-se crea una copia real del contenido del brain.
-*/
+
 Cat::Cat(const Cat& other) :	Animal(other),
 								_brain(new Brain(*other._brain))
 {
@@ -47,7 +46,8 @@ Cat::Cat(const Cat& other) :	Animal(other),
 /**
  * @brief	Assignment operator
  * 			- Reuses the base class assignment operator
- * AÑADIR COSAS
+ * 			- Performs a deep copy of the Brain
+ * 
  * @param other	Another Cat object to assign from
  * @return	Reference to the current object
  */
@@ -66,7 +66,8 @@ Cat&	Cat::operator=(const Cat& other)
 
 /**
  * @brief	Destructor
- * AÑADIR COSAS
+ * 			- Releases allocated Brain memory
+ * 
  */
 
 Cat::~Cat()
@@ -88,8 +89,9 @@ void	Cat::makeSound() const
 }
 
 /**
- * @brief	
+ * @brief	Replaces the content of the cat's Brain with another Brain.
  * 
+ * @param brain	A Brain object to copy from.
  */
 
 void	Cat::setBrain(const Brain& brain)
@@ -98,8 +100,9 @@ void	Cat::setBrain(const Brain& brain)
 }
 
 /**
- * @brief	
+ * @brief	Provides access to the Brain of the cat.
  * 
+ * @return Reference to the Brain owned by this cat.
  */
 
 Brain& Cat::getBrain() const

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Dog.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:34 by root              #+#    #+#             */
-/*   Updated: 2025/09/20 17:32:40 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/21 17:32:16 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
  * @brief	Concrete class representing a dog.
  * 			- Inherits publicly from 'Animal'
  * 			- Overrides 'makeSound()'
- * AÑADIR INFO
+ * 			- Owns a Brain instance (allocated dynamically)
+ * 			- Provides Brain access
  * 
  */
 

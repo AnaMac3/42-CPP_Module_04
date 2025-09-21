@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cat.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:22 by root              #+#    #+#             */
-/*   Updated: 2025/09/20 17:29:09 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/21 17:28:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
  * @brief	Concrete class representing a cat.
  * 			- Inherits publicly from 'Animal'.
  * 			- Overrides 'makeSound()'
- * AÑADOR INFO
+ *			- Owns a Brain instance (allocated dynamically)
+ * 			- Provides Brain access ('setBrain()' and 'getBrain()')
  * 
  */
-
 
 class Cat : public Animal
 {

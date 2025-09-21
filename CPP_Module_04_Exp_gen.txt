@@ -5,8 +5,8 @@ Cómo automatizar la creación de clases:
 - VSCode: configurar snuppets
 - Scripts en Shell -> newclass.sh
 
-- ✅ ex00: funciona
-- ✅ ex01
+- ✅ ex00: funciona, explicaciones y corregido lo de virtual
+- ❌ ex01: funciona, pero hay que corregir algunas cosas de las explicaciones / resolver dudas
 - ❌ ex02 -> empezado pero me falta... pasar todas las funciones que se usan a las clases hijas... Y entender qué es buena práctica en los casos anteriores: que todas las funciones aparezcan en todas las clases (base e hijas) o que en las hijas solo aparezcan las que cambian algo...????
 - ❌ ex03 (no obligatorio)
 

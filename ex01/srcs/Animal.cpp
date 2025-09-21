@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Animal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:50:59 by root              #+#    #+#             */
-/*   Updated: 2025/09/20 17:26:54 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/21 17:16:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Animal.hpp"
-
 
 /**
  * @brief	Default constructor
@@ -87,7 +86,7 @@ void	Animal::setType(const std::string &type)
 }
 
 /**
- * @brief	Produces a generic sund
+ * @brief	Produces a generic sound
  * 
  */
 
