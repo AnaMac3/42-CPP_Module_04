@@ -20,4 +20,14 @@
 
 --> cosas nuevas; std::copy de algorithm
 --> std::array<std::string, 100>
---> clases no instanciables...
+--> clases no instanciables...  
+
+--> deep copy para que cada objeto de clase hija tenga su objeto Brain independiente?¡
+deep copy: 
+
+--> clases abstractas: cuando tienen algún método virtual puro -> significa que la clase no implementa esa función y que son las clases derivadas las que la implementan. 
+Qué significa que no se pueda instanciar una clase? Que no puedes hacer Animal a;
+pero si puedes hacer:
+Animal* pets[10];
+pets[i] = new Dog();
+
