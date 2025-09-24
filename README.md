@@ -24,7 +24,7 @@
 --> std::array<std::string, 100>
 --> clases no instanciables...  
 
-### Deep copy
+### Polymorphism -> Deep copy
 --> deep copy para que cada objeto de clase hija tenga su objeto Brain independiente?¡
 - Shallow copy: only copies the pointers, not the content. Two different objects point to the same memory resource. Esto provoca problemas al liberar memoria (doble delete)
 
@@ -50,7 +50,29 @@ En una función polimórfica, el destructor ha de ser públic y virtual, para pe
 El operador de asignación = y el constructor de copia no hace falta que sean protected. Una clase abstracta sigue pudiendo copiarse o asignarse mientras tengas una instancia válida, es decir, una clase hija concreta. Mejor que sean públicos, porque  las clases hijas concretas pueden necesitarlos. 
 
 ### Interfaces
+Una interfaz es una clase abstracta pura:
+- Una clase que solo declara métodos virtuales puros (=0)
+- No tiene implementación propia (o casi nada)
+- Sirve como contrato: obliga a las clases derivadas a implementar esos métodos.
+Características importantes:
+- No instanciables, solo punteros o referencias
+- Polimorfismo: puedes usar un puntero o referencia a la interfaz para manejar objetos de distintas clases.
+- Herencia múltiple: una clase puede implementar varias interfaces.
+Convención de nombres: prefijo I
 
+### Diferencia entre clases abstractas e interfaces:
+- Clases abstractas:
+  - Tiene al menos un método virtual puro (=0)
+  - Puede tener:
+    - Métodos con implementación
+    - Atributos/miembros de datos
+    - Constructores (aunque no se pueden instanciar)
+  - Se usa cuando quieres dar a las clases hijas un contrato (qué métodos deben implementar) y también cierta lógica común.
+- Intefaz:
+  - Es una clase abstracta pura:
+    - Todos sus métodos son virtuales puros (=0)
+    - No tiene atributos de instancia (salvo constantes o static)
+  - Solo define el contrato, qué debe implementar la clase hija, sin dar ninguna implementación por defecto.
 
 
 ### More info
