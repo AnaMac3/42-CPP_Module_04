@@ -5,10 +5,17 @@ Cómo automatizar la creación de clases:
 - VSCode: configurar snuppets
 - Scripts en Shell -> newclass.sh
 
-- ✅ ex00: funciona, explicaciones y corregido lo de virtual
-- ❌ ex01: funciona, pero hay que corregir algunas cosas de las explicaciones / resolver dudas
-- ❌ ex02 -> empezado pero me falta... pasar todas las funciones que se usan a las clases hijas... Y entender qué es buena práctica en los casos anteriores: que todas las funciones aparezcan en todas las clases (base e hijas) o que en las hijas solo aparezcan las que cambian algo...????
+- ✅ ex00: funciona y comentado
+- ✅ ex01
+- ✅ ex02 -> 
 - ❌ ex03 (no obligatorio)
+	- AMateria -> falta conectar con ICharacter y implementar void	AMateria::use(ICharacter& target)
+	- Ice y Cure: falta implementación de clone()
+	- comprobar que ICharacter no necesita constructores y etc
+	- el cpp de ICharacter tiene que tener solo el destructor?? 
+	- ICharacter tiene que tener mas cosas, supongo
+	- IMateriaSource tiene que tener más cosas, supongo
+	
 
 
 Clases abstractas -> aquellas que tienen al menos una función virtual pura
