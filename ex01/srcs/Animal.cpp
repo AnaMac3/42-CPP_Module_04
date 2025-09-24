@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Animal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:50:59 by root              #+#    #+#             */
-/*   Updated: 2025/09/21 17:16:35 by root             ###   ########.fr       */
+/*   Updated: 2025/09/24 11:37:23 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ Animal::~Animal()
 /**
  * @brief	Gets the type of the animal
  * 
- * @return	A constant referente to '_type'
+ * @return	A constant reference to '_type'
  */
 
 std::string const	&Animal::getType() const

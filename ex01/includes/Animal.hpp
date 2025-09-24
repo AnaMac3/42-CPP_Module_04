@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Animal.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:04 by root              #+#    #+#             */
-/*   Updated: 2025/09/21 17:49:33 by root             ###   ########.fr       */
+/*   Updated: 2025/09/24 11:41:49 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,23 @@
 /**
  * @class Animal
  * @brief	Designed as polymorphic base class that other specific animals will
- * 			derive from. 
+ * 			derive from. Abstract (not instantiable) because it declares at least
+ * 			one pure virtual method.
+ * 
  * 			- Stores the type of the animal as a string
- * 			- Provieds a virtual interface for making sounds
- * 			- Declares a pure virtual method getBrain() that forces derived
- * 			classes to implement Brain access.
+ * 			- Provides a virtual interface for making sounds
+ * 			- Declares a pure virtual method getBrain() so that derived classes
+ * 			must implement access to ther Brain.
+ * 			- The destructor must be public and virtual:
+ * 				- Public: so polymorphic deletion (delete basePtr) is allowed
+ * 				- Virtual: so the correct derived destructor is called
  * 			
- * 			ANIMAL NO TIENE BRAIN. GETBRAIN() TIENE QUE ESTAR EN ANIMAL
- * 			PORQUE SI NO NO PODRIA ACCEDER AL BRAIN DEL ARRAY DE PUNTEROS A ANIMAL
- * 			DEL MAIN QUE DA EL EJERCICIO. POR LO QUE GETBRAIN TIENE QUE SER 
- * 			UN PURE VIRTUAL METHOD, POR LO QUE ANIMAL ES UNA CLASE ABSTRACTA
+ * 			Note: Animal itself does not own Brain, but getBrain() must be 
+ * 			declared in the base class to allow Brain access through a pointer
+ * 			to Animal (e.g., in an array of Animal* in main)
  * 	
- * 			- This class cannot be instantiated directly due to the pure 
- * 			virtual method
- * 			- Derived classes must manage their own Brain allocation and
- * 			deallocation.
+ * 			- This class cannot be instantiated directly
+ * 			- Derived classes are responsible for Brain allocation and deallocation.
  * 
  */
 
@@ -56,7 +58,7 @@ class Animal
 		void	setType(const std::string &type);
 		
 		virtual void	makeSound() const;
-		virtual	Brain &getBrain(void) const = 0;
+		virtual	Brain &getBrain(void) const = 0; //pure virtual
 };
 
 #endif

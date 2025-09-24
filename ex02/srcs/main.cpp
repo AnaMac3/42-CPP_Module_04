@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 10:25:18 by root              #+#    #+#             */
-/*   Updated: 2025/09/16 17:06:51 by root             ###   ########.fr       */
+/*   Updated: 2025/09/21 17:37:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 int	main()
 {
-	//Create array of Animal objects
+	//Create array of pointers to Animal objects
 	std::cout << "======================================================" << std::endl;
-	std::cout << "Create an array of Animal objects: 5 Dogs and 5 Cats." << std::endl;
-	const Animal* pets[10];
+	std::cout << "Create an array of pointers to Animal objects: 5 Dogs and 5 Cats." << std::endl;
+	const Animal* pets[10]; //create pointers to Animal obj, not creating Animal obj
 	
 	for (int i = 0; i < 10; i ++)
 	{

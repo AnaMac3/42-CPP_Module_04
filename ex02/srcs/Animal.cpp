@@ -6,12 +6,11 @@
 /*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:50:59 by root              #+#    #+#             */
-/*   Updated: 2025/09/20 17:36:34 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:26:15 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Animal.hpp"
-
 
 /**
  * @brief	Default constructor
@@ -95,4 +94,3 @@ void	Animal::makeSound() const
 {
 	std::cout << BG_BLUE << "**Default Sound**" << RESET << std::endl;
 }
-
