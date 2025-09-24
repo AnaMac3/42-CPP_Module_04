@@ -31,8 +31,36 @@
             this->_brain = other._brain;
   
 - Deep copy: a new independent copy of the resource is created. Each object has its own memory.
+  - En la inicialización:
+  - 
+           this->brain = new Brain(*other._brain)
+  - En la copia:
+    
+            Cat&	Cat::operator=(const Cat& other)
+            {
+            	std::cout << GREEN << "Cat Assignment Operator called" 
+            				<< RESET << std::endl;
+            	if (this != &other)
+            	{
+            		Animal::operator=(other);
+            		*this->_brain = *other._brain;
+            	}
+            	return (*this);
+            } 
 
-            this->brain = new Brain(*other._brain)
+  -> esto es deep copy también?:
+  
+                          Character&	Character::operator=(const Character& other)
+                        {
+                        	//std::cout << "Character Assignment Operator called" << std::endl;
+                        	if (this != &other)
+                        	{
+                        		this->_name = other._name;
+                        		*this->_inventory = *other._inventory; //deep copy of inventory
+                        	}
+                        	return (*this);
+                        }
+
 
 ### Clases abstractas
 --> clases abstractas: cuando tienen algún método virtual puro -> significa que la clase no implementa esa función y que son las clases derivadas las que la implementan.  
@@ -73,6 +101,11 @@ Convención de nombres: prefijo I
     - Todos sus métodos son virtuales puros (=0)
     - No tiene atributos de instancia (salvo constantes o static)
   - Solo define el contrato, qué debe implementar la clase hija, sin dar ninguna implementación por defecto.
+
+
+Más cosas...->
+- Qué es el rollo de ownership?
+- 
 
 
 ### More info
