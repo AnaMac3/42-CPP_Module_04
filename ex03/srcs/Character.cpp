@@ -12,9 +12,16 @@ Character::Character(std::string const &name) : _name(name),
 
 }
 
+
+
 Character::~Character()
 {
 	//std::cout << "Character Destructor called" << std::endl;
+	for (int i = 0; i < 4; i ++)
+	{
+		if (_inventory[i])
+			delete _inventory[i];
+	}
 }
 
 Character::Character(const Character& other)
@@ -29,7 +36,14 @@ Character&	Character::operator=(const Character& other)
 	if (this != &other)
 	{
 		this->_name = other._name;
-		*this->_inventory = *other._inventory; //deep copy of inventory
+		//*this->_inventory = *other._inventory; //solo copia el primer array de _inventory
+		for (int i; i < 4; i ++)
+		{
+			if (other._inventory[i])
+				this->_inventory[i] = other._inventory[i];
+			else
+				this->_inventory[i] = NULL;
+		}
 	}
 	return (*this);
 }

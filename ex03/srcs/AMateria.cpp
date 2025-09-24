@@ -26,9 +26,7 @@ AMateria&	AMateria::operator=(const AMateria& other)
 {
 	//std::cout << "AMateria Assignment Operator called" << std::endl;
 	if (this != &other)
-	{
 		this->_type = other._type;
-	}
 	return (*this);
 }
 
@@ -37,6 +35,15 @@ std::string const	&AMateria::getType() const
 	return(this->_type);
 }
 
+/**
+ * @brief	Aplies the efecto of the materia on the target
+ * 			Implementación por defecto que puede hacer login o no hacer nada
+ * 			significativo. ¿Cómo se haría login?
+ * 			Las clases derivadas sobreescriben use() para ejecutar el comportamient
+ * 			real
+ * 
+ * @param target	Objetivo sobre el qu se aplica el efecto
+ */
 void	AMateria::use(ICharacter& target)
 {
 	std::cout << "AMateria use method called with " 

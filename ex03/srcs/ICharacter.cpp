@@ -1,6 +1,6 @@
 #include "ICharacter.hpp"
 
-ICharacter::ICharacter()
+/*ICharacter::ICharacter()
 {
 
 }
@@ -17,7 +17,12 @@ ICharacter&	ICharacter::operator=(const ICharacter& other)
 		//???
 	}
 	return (*this);
-}
+}*/
+
+/**
+ * @brief	Virtual destructor
+ * 			- Pure virtual: must be implemented by the concrete class
+ */
 
 ICharacter::~ICharacter()
 {

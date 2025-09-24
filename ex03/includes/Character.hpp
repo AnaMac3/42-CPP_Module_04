@@ -5,7 +5,11 @@
 
 /**
  * @class	Character
- * @brief	Cómo implemento la interfaz ICharacter?
+ * @brief	Implementación concreta de ICharacter con inventario de 4 slots.
+ * 			- Inventario de tamaño fijo
+ * 			- Al construir, todos los slots se inicializan en vacío
+ * 			- equip(AMateria* m)
+ * 				- 
  * 
  * 			POSEES AN INVENTORY OF 4 SLOTS -> AT MOST 4 MATERIAS.
  * 			IS EMPTY UPON CONSTRUCTION

@@ -5,7 +5,10 @@
 
 /**
  * @class	Cure
- * @brief	
+ * @brief	Concrete materia of Cure type
+ * 			- Inherits from AMateria and implements clone() and use()
+ * 			- Its clone returns a new Cure(*this)
+ * 			- Its use() performs an specific action
  */
 
 class Cure : public AMateria

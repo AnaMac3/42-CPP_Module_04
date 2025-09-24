@@ -5,7 +5,10 @@
 
 /**
  * @class	Ice
- * @brief	
+ * @brief	Concrete materia of Ice type
+ * 			- Inherits from AMateria and implements clone() and use()
+ * 			- Its clone returns a new Ice(*this)
+ * 			- Its use() performs an specific action
  */
 
 class Ice : public AMateria
