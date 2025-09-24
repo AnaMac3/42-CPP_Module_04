@@ -49,5 +49,8 @@ En una función polimórfica, el destructor ha de ser públic y virtual, para pe
 
 El operador de asignación = y el constructor de copia no hace falta que sean protected. Una clase abstracta sigue pudiendo copiarse o asignarse mientras tengas una instancia válida, es decir, una clase hija concreta. Mejor que sean públicos, porque  las clases hijas concretas pueden necesitarlos. 
 
+### Interfaces
+
+
 
 ### More info
