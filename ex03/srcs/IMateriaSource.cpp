@@ -2,7 +2,7 @@
 
 IMateriaSource::IMateriaSource()
 {
-	std::cout << "IMateriaSource Default Constructor called" << std::endl;
+	//std::cout << "IMateriaSource Default Constructor called" << std::endl;
 }
 
 IMateriaSource::~IMateriaSource()
@@ -12,13 +12,13 @@ IMateriaSource::~IMateriaSource()
 
 IMateriaSource::IMateriaSource(const IMateriaSource& other)
 {
-	std::cout << "IMateriaSource Copy Constructor called" << std::endl;
+	//std::cout << "IMateriaSource Copy Constructor called" << std::endl;
 	*this = other;
 }
 
 IMateriaSource&	IMateriaSource::operator=(const IMateriaSource& other)
 {
-	std::cout << "IMateriaSource Assignment Operator called" << std::endl;
+	//std::cout << "IMateriaSource Assignment Operator called" << std::endl;
 	if (this != &other)
 	{
 		//copy atributes

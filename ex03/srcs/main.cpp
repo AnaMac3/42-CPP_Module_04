@@ -6,15 +6,17 @@
 /*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 13:15:22 by amacarul          #+#    #+#             */
-/*   Updated: 2025/09/24 13:16:23 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:15:37 by amacarul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AMateria.hpp"
+#include "Ice.hpp"
+
 
 int main()
 {   
-	IMateriaSource* src = new MateriaSource();
+	/*IMateriaSource* src = new MateriaSource();
 	src->learnMateria(new Ice());
 	src->learnMateria(new Cure());
 	ICharacter* me = new Character("me");
@@ -28,9 +30,26 @@ int main()
 	me->use(1, *bob);
 	delete bob;
 	delete me;
-	delete src;
+	delete src;*/
 
 	//My tests
+	std::cout << std::endl;
+	std::cout << "Create Ice objects" << std::endl;
+	
+	AMateria *matPtr = new Ice(); //by pointer to AMateria
+	
+	Ice ice; //direct Ice object
+	Ice ice2(ice); //copy constructor
+	Ice ice3;
+	ice3 = ice2; //assignent operator
+	
+	matPtr = ice3.clone(); //clone an Ice obj in a AMateria pointer
+
+	ice.use();
+	 
+	
+	std::cout << std::endl;
+	
 
 	return 0;
 }

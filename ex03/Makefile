@@ -6,12 +6,16 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 DIR_INCLUDES = ./includes
 INCLUDES = $(DIR_INCLUDES)/AMateria.hpp \
 							Ice.hpp \
-							Cure.hpp
+							Cure.hpp \
+							ICharacter.hpp \
+							Character.hpp 
 
 DIR_SRCS = ./srcs
 SRCS_FILES = $(DIR_SRCS)/AMateria.cpp \
 					Ice.cpp \
 					Cure.cpp \
+					ICharacter.cpp \
+					Character.cpp \
 					main.cpp
 
 SRCS = $(addprefix $(DIR_SRCS)/, $(SRCS_FILES))
