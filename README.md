@@ -164,64 +164,41 @@ Más cosas...->
 - 
 
 ### ex03
+**Clases y sus dependencias**  
+- AMateria:
+  - Clase base abstracta (método virtual puro clone())
+  - Clase base para tipos concretos: Ice y Cure
+  - Depende de:
+    - ICharacter (en use(ICharacter& target))
+- Ice y Cure:
+  - Heredan de AMateeria
+  - Implementan clone() y sobreescriven use()
+  - Dependencia: AMateria
+- ICharacter:
+  - Interfaz abstracta
+  - Define métodos virtuales puros: getName(), equip(), unequip(), use()
+  - No tiene dependencias directas a clases concretas, pero define interacción con AMateria
+- Character:
+  - Implementa ICharacter
+  - Tiene:
+    - _inventory[4]: punteros a AMateria
+    - _floor: vector de punteros a AMateria*
+  - Dependencias:
+    - AMateria (punteros y clonación)
+    - ICharacter
+- IMateriaSource
+  - Interfaz abstracta
+  - Define métodos virtuales puros: learnMateria(), createMateria()
+  - No tiene dependencias directas a clases concretas, pero define interacción con AMateria
+- MateriaSource
+  - Implementa IMateriaSource
+  - Tiene:
+    - _list[4]: punteros a AMateria
+  - Dependencias:
+    - AMateria
+    - IMateriaSource
+
 Diagrama de dependencias entre clases de ex03:
-```mermaid
-classDiagram
-    class ICharacter {
-        <<interface>>
-        +getName() string
-        +equip(AMateria* m)
-        +unequip(int idx)
-        +use(int idx, ICharacter& target)
-    }
 
-    class Character {
-        -string _name
-        -AMateria* _inventory[4]
-        -vector~AMateria*~ _floor
-        +equip(AMateria* m)
-        +unequip(int idx)
-        +use(int idx, ICharacter& target)
-    }
-
-    class AMateria {
-        <<abstract>>
-        -string _type
-        +getType() string
-        +clone() AMateria*
-        +use(ICharacter& target)
-    }
-
-    class Ice {
-        +clone() AMateria*
-        +use(ICharacter& target)
-    }
-
-    class Cure {
-        +clone() AMateria*
-        +use(ICharacter& target)
-    }
-
-    class IMateriaSource {
-        <<interface>>
-        +learnMateria(AMateria* m)
-        +createMateria(string const& type) AMateria*
-    }
-
-    class MateriaSource {
-        -AMateria* _templates[4]
-        +learnMateria(AMateria* m)
-        +createMateria(string const& type) AMateria*
-    }
-
-    ICharacter <|.. Character
-    AMateria <|-- Ice
-    AMateria <|-- Cure
-    IMateriaSource <|.. MateriaSource
-    Character --> AMateria : clones
-    AMateria --> ICharacter : uses
-    MateriaSource --> AMateria : clones
-
-```
 
 ### More info
