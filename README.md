@@ -114,40 +114,6 @@ Las interfaces se usan cuando quieres definir un comportamiento común que varia
   - Solo define el contrato, qué debe implementar la clase hija, sin dar ninguna implementación por defecto.
   - Se usa cuando quieres que clases sin relación compartan comportamientos.
 
-### std::vector
-std::vector es un contenedor dinámico de la Standard Template Library. Guarda los elementos en memoria contigua (como un array normal) pero puede cambiar de tamaño automáticamente. Lo usamos cuando no sabemos cuántos elementos habrá, a diferencia de un array fijo (array[4]).
-
-Example:
-
-            #include <vector>
-            #include <iostream>
-            
-            int main()
-            {
-                        std::vector<int> numbers;
-            
-                        numbers.push_back(10); //adds at the end
-                        numbers.push_back(20);
-                        numbers.push_back(30);
-            
-                        std::cout << "Size: " << numbers.size() << std::endl; //3
-                        std::cout << "First element: " << numbers[0] << std::endl; //10
-            }
-
-**Métodos importantes de std::vector (C++98)**:  
-- push_back(value): añade al final
-- size(): devuelve número de elementos almacenados
-- empty(): true si está vacío
-- operator[index]: acceso directo sin comprobación
-- at(index): acceso con comprobación de limites
-- front(): primer elemento
-- back(): último elemento
-- pop_back(): borrar el último elemento
-- clear(): borrar todos los elementos
-- erase(iterator): borra elemento en esa posición
-- begin(): primer elemento
-- end(): uno después del último (fin del rango)
-
 
 ### Otras cosas
 - **Dependencias circulares**: EN el ejercicio ex03: ICharacter.hpp tiene un #include "AMateria.hpp"; y AMateria.hpp también tiene un include "ICharacter.hpp" -> esto provoca que los headers se persigan mutuamente y da error de compilación. Solución: forward declaration: cuando una clase solo necesita manejar punteros o referencias a otra clas,e no hace falta incluir el header completo; basta con declarar su existencia:
@@ -195,10 +161,120 @@ Más cosas...->
   - Tiene:
     - _list[4]: punteros a AMateria
   - Dependencias:
-    - AMateria
+    - AMateria (punteros y clonación)
     - IMateriaSource
 
-Diagrama de dependencias entre clases de ex03:
+**Diagrama de dependencias entre clases de ex03**
 
+```mermaid
+
+classDiagram
+   direction LR
+
+    %% Interfaces
+    class IMateriaSource {
+        <<interface>>
+        +learnMateria()
+        +createMateria()
+    }
+
+    class ICharacter {
+        <<interface>>
+        +getName()
+        +equip()
+        +unequip()
+        +use()
+    }
+
+    %% Abstract Class
+    class AMateria {
+        -_type
+        +AMateria()
+        +getType()
+        +clone()
+        +use()
+    }
+
+    %% Concrete Classes
+    class Ice {
+        +Ice()
+        +clone()
+        +use()
+    }
+
+    class Cure {
+        +Cure()
+        +clone()
+        +use()
+    }
+
+    class MateriaSource {
+        -_list
+        +MateriaSource()
+        +learnMateria()
+        +createMateria()
+    }
+
+    class Character {
+        -_name
+        -_inventory
+        -_floor
+        +Character()
+        +getName()
+        +equip()
+        +unequip()
+        +use()
+    }
+
+    %% Relaciones
+    IMateriaSource <|.. MateriaSource
+    ICharacter <|.. Character
+    AMateria <|-- Ice
+    AMateria <|-- Cure
+
+    MateriaSource --> AMateria : stores+clones
+    Character --> AMateria : stores+clones+uses
+    AMateria --> ICharacter : uses in use()
+    Ice --> ICharacter : uses in use()
+    Cure --> ICharacter : uses in use()
+
+
+```
+
+### Otras cosas...: std::vector
+std::vector es un contenedor dinámico de la Standard Template Library. Guarda los elementos en memoria contigua (como un array normal) pero puede cambiar de tamaño automáticamente. Lo usamos cuando no sabemos cuántos elementos habrá, a diferencia de un array fijo (array[4]).
+
+Example:
+
+            #include <vector>
+            #include <iostream>
+            
+            int main()
+            {
+                        std::vector<int> numbers;
+            
+                        numbers.push_back(10); //adds at the end
+                        numbers.push_back(20);
+                        numbers.push_back(30);
+            
+                        std::cout << "Size: " << numbers.size() << std::endl; //3
+                        std::cout << "First element: " << numbers[0] << std::endl; //10
+            }
+
+**Métodos importantes de std::vector (C++98)**:  
+- push_back(value): añade al final
+- size(): devuelve número de elementos almacenados
+- empty(): true si está vacío
+- operator[index]: acceso directo sin comprobación
+- at(index): acceso con comprobación de limites
+- front(): primer elemento
+- back(): último elemento
+- pop_back(): borrar el último elemento
+- clear(): borrar todos los elementos
+- erase(iterator): borra elemento en esa posición
+- begin(): primer elemento
+- end(): uno después del último (fin del rango)
+
++ PONER UN EJEMPLO DE COMO ITERAR EN UN VECTOR...
 
 ### More info
