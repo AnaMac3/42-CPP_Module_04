@@ -3,53 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amacarul <amacarul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 13:15:22 by amacarul          #+#    #+#             */
-/*   Updated: 2025/09/24 15:15:37 by amacarul         ###   ########.fr       */
+/*   Updated: 2025/09/26 12:44:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AMateria.hpp"
 #include "Ice.hpp"
-
+#include "Cure.hpp"
+#include "Character.hpp"
+#include "MateriaSource.hpp"
+#include <iostream>
 
 int main()
 {   
-	/*IMateriaSource* src = new MateriaSource();
+	
+	
+	std::cout << "==============================" << std::endl;
+	
+	//Create MateriaSource and learn materias
+	IMateriaSource* src = new MateriaSource();
 	src->learnMateria(new Ice());
 	src->learnMateria(new Cure());
+	src->learnMateria(new Cure());
+	src->learnMateria(NULL); //Cannot learn NULL materias
+	src->learnMateria(new Cure());
+	src->learnMateria(new Ice()); //Cannot learn more materias (> 4)
+
+	std::cout << std::endl;
+	
+	//Create Character
 	ICharacter* me = new Character("me");
+
+	std::cout << std::endl;
+	
+	//Create materias from MateriaSource
 	AMateria* tmp;
 	tmp = src->createMateria("ice");
 	me->equip(tmp);
+	
 	tmp = src->createMateria("cure");
 	me->equip(tmp);
+
+	//Try equip invalid materia
+	me->equip(NULL); //Invalid materia
+
+	//Full characters inventory
+	me->equip(tmp);
+	me->equip(tmp);
+	me->equip(tmp); //Inventory is full
+
+	//Try create unkwon materia
+	tmp = src->createMateria("stone"); //unknown
+
+	std::cout << std::endl;
+
+	//Other character
 	ICharacter* bob = new Character("bob");
+
+	std::cout << std::endl;
+
+	//Unequip materias
+
+	//Use materias
 	me->use(0, *bob);
 	me->use(1, *bob);
+
+	std::cout << std::endl;
+
+	//Try use invalid index
+	me->use(5, *bob); //invalid index
+
+	//Try to use materias when character doesn't have them?
+	bob->use(0, *me); //Slot 0 empty
+
+	//Unequip
+	me->unequip(0); //unequip Ice - no more Ice in the inventory
+	me->unequip(1); //unequip Cure - there are more Cure
+
+	//Try to use again
+	me->use(0, *bob); //empty slot
+	me->use(1, *bob); //empty slot
+	
+
+	std::cout << std::endl;
+
+	//Free memory
 	delete bob;
 	delete me;
-	delete src;*/
+	delete src;
 
-	//My tests
 	std::cout << std::endl;
-	std::cout << "Create Ice objects" << std::endl;
-	
-	AMateria *matPtr = new Ice(); //by pointer to AMateria
-	
-	Ice ice; //direct Ice object
-	Ice ice2(ice); //copy constructor
-	Ice ice3;
-	ice3 = ice2; //assignent operator
-	
-	matPtr = ice3.clone(); //clone an Ice obj in a AMateria pointer
-
-	ice.use();
-	 
-	
-	std::cout << std::endl;
-	
 
 	return 0;
 }

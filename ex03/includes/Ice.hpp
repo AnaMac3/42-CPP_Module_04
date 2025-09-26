@@ -3,6 +3,9 @@
 
 # include "AMateria.hpp"
 
+# define BLUE	"\033[34m"
+# define RESET	"\033[0m"
+
 /**
  * @class	Ice
  * @brief	Concrete materia of Ice type

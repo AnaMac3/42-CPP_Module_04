@@ -1,7 +1,22 @@
-#ifndef ICharacter_HPP
-# define ICharacter_HPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ICharacter.hpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 09:51:43 by root              #+#    #+#             */
+/*   Updated: 2025/09/26 10:21:31 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "AMateria.hpp"
+#ifndef ICHARACTER_HPP
+# define ICHARACTER_HPP
+
+# include <string>
+
+//forward declaration 
+class AMateria;
 
 /**
  * @class	ICharacter
@@ -16,20 +31,15 @@
  * 
  * 			- Must have a virtual destructor to allow the delete through pointers
  * 			to the interface
- * 			- NO SE SI ME SOBRAN LOS CONSTRUCTORES DEFAULT/COPY... MIRAR NORMAS...
- * 			EN EL EJERCICIO NO SE PIDEN, PUEDO PRESCINDIR TB DEL OPERADOR??
+ * 			- AQUÍ NO SE USA LA ORTODOX CANONICAL FORM PORQUE EN EL SUBJECT 
+ * 			SE ESPECIFICA ESTA FORMA PARA LA CLASE ICHARACTER.
  * 
  */
 
 class ICharacter
 {
-	/*protected:
-		ICharacter();
-		ICharacter(ICharacter const &other); //NO SE SI LA INTERFAZ TIENE QUE TENER O NO ESTOS CONSTRUCTORES, AQUI O EN PUBLIC
-		ICharacter& operator=(const ICharacter& other);
-	*/
 	public:
-		virtual ~ICharacter();
+		virtual ~ICharacter() {} 
 
 		virtual std::string const &getName() const = 0;
 		

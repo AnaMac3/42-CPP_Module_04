@@ -9,15 +9,15 @@ INCLUDES = $(DIR_INCLUDES)/AMateria.hpp \
 							Cure.hpp \
 							ICharacter.hpp \
 							Character.hpp \
-							IMateriaSource.hpp
+							IMateriaSource.hpp \
+							MateriaSource.hpp 
 
 DIR_SRCS = ./srcs
 SRCS_FILES = $(DIR_SRCS)/AMateria.cpp \
 					Ice.cpp \
 					Cure.cpp \
-					ICharacter.cpp \
 					Character.cpp \
-					IMateriaSource.cpp \
+					MateriaSource.cpp \
 					main.cpp
 
 SRCS = $(addprefix $(DIR_SRCS)/, $(SRCS_FILES))

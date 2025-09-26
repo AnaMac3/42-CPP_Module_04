@@ -1,7 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Character.hpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 09:51:39 by root              #+#    #+#             */
+/*   Updated: 2025/09/26 11:01:43 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef Character_HPP
 # define Character_HPP
 
+# include <vector>
 # include "AMateria.hpp"
+# include "ICharacter.hpp"
+
+# define MAGENTA	"\033[35m"
+# define CYAN		"\033[36m" 		
+# define RED		"\033[31m"
+# define RESET		"\033[0m"
 
 /**
  * @class	Character
@@ -20,7 +39,7 @@
  * 			A NON-EXISTENT MATERIA, NOTHING SHOULD HAPPEN (BUT BUGS ARE STILL FORBIDDEN)
  * 			THE UNEQUIP() MEMBER FUNCTION MUST NOT DELETE THE MATERIA
  * 
- * * 
+ *
  * 		use(int, ... -> use the Materia at the slot[idx] and pass the target parameter 
  * 					to the AMAteria::use function
  * 
@@ -29,13 +48,16 @@
  * 		During copy, the Materias of a Character must be deleted before the new ones
  * 		are added to their inventory
  * 		Materias must be deleted when a Character is destroyed
+ * 
+ * 		cómo funciona vector?
  */
 
 class Character : public ICharacter
 {
 	private:
-		std::string	_name;
+		std::string	_name; 
 		AMateria	*_inventory[4]; //puntero a array de 4 objetos AMateria
+		std::vector<AMateria*> _floor; //unequiped materias 
 
 	public:
 		Character();

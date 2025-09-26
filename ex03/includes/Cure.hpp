@@ -3,6 +3,9 @@
 
 # include "AMateria.hpp"
 
+# define GREEN	"\033[32m"
+# define RESET	"\033[0m"
+
 /**
  * @class	Cure
  * @brief	Concrete materia of Cure type

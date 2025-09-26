@@ -7,7 +7,7 @@
 
 Cure::Cure() : AMateria("cure")
 {
-	//std::cout << "Cure Default Constructor called" << std::endl;
+	std::cout << GREEN << "Cure Default Constructor called" << RESET << std::endl;
 }
 
 /**
@@ -17,7 +17,7 @@ Cure::Cure() : AMateria("cure")
 
 Cure::~Cure()
 {
-	//std::cout << "Cure Destructor called" << std::endl;
+	std::cout << GREEN << "Cure Destructor called" << RESET << std::endl;
 }
 
 /**
@@ -29,7 +29,7 @@ Cure::~Cure()
 
 Cure::Cure(const Cure& other) : AMateria()
 {
-	std::cout << "Cure Copy Constructor called" << std::endl;
+	std::cout << GREEN << "Cure Copy Constructor called" << RESET << std::endl;
 	*this = other;
 }
 
@@ -42,10 +42,11 @@ Cure::Cure(const Cure& other) : AMateria()
 
 Cure&	Cure::operator=(const Cure& other)
 {
-	//std::cout << "Cure Assignment Operator called" << std::endl;
+	std::cout << GREEN << "Cure Assignment Operator called" << RESET << std::endl;
+	
 	if (this != &other)
 	{
-		AMateria::operator=;
+		AMateria::operator=(other);
 		//añadir mas cosas?
 	}
 	return (*this);
@@ -74,6 +75,6 @@ void	Cure::use(ICharacter& target)
 
 AMateria* Cure::clone() const //return a new instance of the same type
 {
-	std::cout << "Cure clone called" << std::endl;
+	std::cout << GREEN << "Cure clone called" << RESET << std::endl;
 	return (new Cure(*this));
 }

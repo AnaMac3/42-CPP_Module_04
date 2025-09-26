@@ -1,8 +1,21 @@
-#ifndef IMateriaSpurce_HPP
-# define IMateriaSpurce_HPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   IMateriaSource.hpp                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 11:12:32 by root              #+#    #+#             */
+/*   Updated: 2025/09/26 13:05:29 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include <iostream>
-# include "AMateria.hpp"
+#ifndef IMATERIASOURCE_HPP
+# define IMATERIASOURCE_HPP
+
+# include <string>
+
+class AMateria;
 
 /**
  * learnMateria(AMateria*) -> copia la Materia pasada como parametro y la guarda
@@ -15,17 +28,16 @@
  * In a nutshell your MateriaSource must be able to learn "templates" of Materias to create them
  * when needed. Then, you will be able to generate a new Materia using just a string
  * that identifies its type
+ * 
+ * NO SE PONEN LOS CONSTRUCTORES PORQUE EL SUBJECT DA LA FORMA DE IMATERIASOURCE
  */
 
 class IMateriaSource
 {
 	public:
-		//IMateriaSource();
-		virtual ~IMateriaSource();
-		//IMateriaSource(const IMateriaSource& other);
-		//IMateriaSource& operator=(const IMateriaSource& other);
+		virtual ~IMateriaSource() {}
 
-		virtual void learnMateria(AMateria*) = 0;
+		virtual void learnMateria(AMateria *m) = 0;
 		virtual AMateria* createMateria(std::string const &type) = 0;
 };
 

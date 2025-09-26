@@ -7,7 +7,8 @@
 
 Ice::Ice() : AMateria("ice")
 {
-	//std::cout << "Ice Default Constructor called" << std::endl;
+	std::cout << BLUE << "Ice Default Constructor called" 
+				<< RESET << std::endl;
 }
 
 /**
@@ -17,7 +18,7 @@ Ice::Ice() : AMateria("ice")
 
 Ice::~Ice()
 {
-	//std::cout << "Ice Destructor called" << std::endl;
+	std::cout << BLUE << "Ice Destructor called" << RESET << std::endl;
 }
 
 /**
@@ -29,7 +30,7 @@ Ice::~Ice()
 
 Ice::Ice(const Ice& other) : AMateria()
 {
-	//std::cout << "Ice Copy Constructor called" << std::endl;
+	std::cout << BLUE << "Ice Copy Constructor called" << RESET << std::endl;
 	*this = other;
 }
 
@@ -42,11 +43,12 @@ Ice::Ice(const Ice& other) : AMateria()
 
 Ice&	Ice::operator=(const Ice& other)
 {
-	//std::cout << "Ice Assignment Operator called" << std::endl;
+	std::cout << BLUE << "Ice Assignment Operator called" << RESET << std::endl;
+	
 	if (this != &other)
 	{
-		AMateria::operator=;
-		//añadir mas cosas?
+		AMateria::operator=(other);
+		//añadir mas cosas? 
 	}
 	return (*this);
 }
@@ -68,12 +70,14 @@ void	Ice::use(ICharacter& target)
 /**
  * @brief	Clone this Ice
  * 			- Returns heap memory, must be deleted/handled in the caller
+ * 			clone llama a copy constructor 
+ * 			hay que liberar no? el caller debe liberar?
  * 
  * @return	Pointer to a dynamic copy of the same class
  */
 
 AMateria* Ice::clone() const //return a new instance of the same type
 {
-	std::cout << "Ice clone called" << std::endl;
+	std::cout << BLUE << "Ice clone called" << RESET << std::endl;
 	return (new Ice(*this));
 }

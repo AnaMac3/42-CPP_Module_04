@@ -1,13 +1,28 @@
-#ifndef AMateria_HPP
-# define AMateria_HPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   AMateria.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 09:51:46 by root              #+#    #+#             */
+/*   Updated: 2025/09/26 12:50:22 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef AMATERIA_HPP
+# define AMATERIA_HPP
 
 # include <iostream>
 # include "ICharacter.hpp"
 
+# define BG_GREEN	"\033[42m"
+# define RESET		"\033[0m"
+
 /**
  * @class	AMateria
  * @brief	Abstract class which represents a generic "materia".
- * 			This is the base cñass for the concrete types of materia (Ice, Cure).
+ * 			This is the base class for the concrete types of materia (Ice, Cure).
  * 			Provies:
  * 			- A type identifier
  * 			- A clone interface to allow deep copies for runtime type
@@ -25,17 +40,17 @@
 class AMateria
 {
 	protected:
-		AMateria();
+		AMateria(); //para que no se creen instancias directamente de AMateria, las subclases pueden llamarlo. No es necesario (porque clone es pure virtual), pero da claridad y robustez
 
 		std::string _type;
 
 	public:
-		AMateria(std::string const &type); 
+		AMateria(std::string const &type); //las subclases lo llaman para inicializar con su type
+
+		AMateria(const AMateria& other); //copias y asignement: suelen ser public porque permiten copiar desde punteros o referencias a AMateria
+		AMateria& operator=(const AMateria& other);
 
 		virtual ~AMateria();
-
-		AMateria(const AMateria& other);
-		AMateria& operator=(const AMateria& other);
 
 		std::string const &getType() const; //returns the materia type
 

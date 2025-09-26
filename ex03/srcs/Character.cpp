@@ -1,32 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Character.cpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 09:51:34 by root              #+#    #+#             */
+/*   Updated: 2025/09/26 12:35:04 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Character.hpp"
 
-Character::Character() : _name("default"),
-						_inventory()
+/**
+ * @brief	Default constructor
+ * 
+ */
+
+Character::Character() : _name("default")
 {
-	//std::cout << "Character Default Constructor called" << std::endl;
+	std::cout << MAGENTA << "Character Default Constructor called" 
+				<< RESET << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = NULL;
 }
-
-Character::Character(std::string const &name) : _name(name),
-												_inventory()
-{
-
-}
-
 
 /**
- * @brief	Default destructor
- * 			- deletes all the materias in _inventory
- * 			- no deben intentar borrar materias que han sido unequiped
+ * @brief	Name Constructor
+ * 			DEBERIA INICIALIZAR CADA OBJETO DE AMATERIA (_INVENTORY) EN NULL?
  */
-Character::~Character()
+
+Character::Character(std::string const &name) : _name(name)
 {
-	//std::cout << "Character Destructor called" << std::endl;
-	for (int i = 0; i < 4; i ++)
-	{
-		if (_inventory[i])
-			delete _inventory[i];
-	}
+	std::cout << MAGENTA << "Character Name Constructor called" 
+				<< RESET << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = NULL;
 }
+
 
 /**
  * @brief	Copy Constructor (deep copy)
@@ -37,19 +48,14 @@ Character::~Character()
  * 	por qué aquí no puedo utilizar directamente el asignment operator??
  */
 
-Character::Character(const Character& other) : ICharacter(other),
-												_inventory()
+Character::Character(const Character& other)
 {
-	//std::cout << "Character Copy Constructor called" << std::endl;
-	//*this = other;
-	this->_name = other._name;
-	for (int i = 0; i < 4; i ++)
-	{
-		if (other._inventory[i])
-				this->_inventory[i] = other._inventory[i]->clone();
-		else
-			this->_inventory[i] = NULL;
-	}
+	std::cout << MAGENTA << "Character Copy Constructor called" 
+				<< RESET << std::endl;
+	
+	for (int i = 0; i < 4; i++)
+		this->_inventory[i] = NULL;
+	*this = other;
 }
 
 /**
@@ -66,26 +72,48 @@ Character::Character(const Character& other) : ICharacter(other),
 
 Character&	Character::operator=(const Character& other)
 {
-	//std::cout << "Character Assignment Operator called" << std::endl
+	std::cout << MAGENTA << "Character Assignment Operator called" 
+				<< RESET << std::endl;
+
 	if (this != &other)
 	{
-		this->_name = other._name;
-		//*this->_inventory = *other._inventory; //solo copia el primer array de _inventory
-		//si hay inventorys asignados, borrarlos
-		for (int i; i < 4; i ++)
+		this->_name = other.getName();
+		for (int i = 0; i < 4; i ++) //si el Character actual tiene AMaterias en el inventario, borrarlos
 		{
+			if (this->_inventory[i])
+				delete this->_inventory[i];
 			if (other._inventory[i])
-				delete other._inventory[i];
-		}
-		for (int i; i < 4; i ++)
-		{
-			if (other._inventory[i])
-				this->_inventory[i] = other._inventory[i]->clone;
+				this->_inventory[i] = other._inventory[i]->clone();
 			else
 				this->_inventory[i] = NULL;
 		}
 	}
 	return (*this);
+}
+
+/**
+ * @brief	Default destructor
+ * 			- deletes all the equiped materias in _inventory
+ * 			- debe liberar las materias unequiped que están en _floor
+ */
+
+Character::~Character()
+{
+	std::cout << MAGENTA << "Character Destructor called" 
+				<< RESET << std::endl;
+
+	for (int i = 0; i < 4; i ++)
+	{
+		if (_inventory[i])
+			delete _inventory[i];
+	}
+	//iterar _floor para liberar las materias unequipadas
+	std::vector<AMateria*>::iterator it; //qué es esto??
+	for(it = _floor.begin(); it != _floor.end(); ++it) //explicar lógica
+	{
+		delete *it;
+	}
+	
 }
 
 /**
@@ -125,33 +153,26 @@ std::string const &Character::getName() const
 
 void	Character::equip(AMateria* m)
 {
-	//meten la Materia en el pprimer slot vacio del inventory que haya - de 0 a 3
-	if (m)
+	if (m == NULL)
 	{
-		for (int i = 0; i < 4; i ++)
+		std::cout << RED << "==> Invalid materia" << RESET << std::endl;
+		return ;
+	}
+	//meten la Materia en el pprimer slot vacio del inventory que haya - de 0 a 3
+	for (int i = 0; i < 4; i ++)
+	{
+		if (this->_inventory[i] == NULL)
 		{
-			if (this->_inventory[i] == m)
-			{
-				std::cout << "Materia " << m->getType() << " is already equipped to "
-							<< this->_name << "'s inventory" << std::endl;
-				return ;
-			}
-		}
-		for(int i = 0; i < 4; i ++)
-		{
-			//y si no está, hacemos esto?: 
-			if (this->_inventory[i] == NULL)
-				this->_inventory[i] == m->clone();
+			this->_inventory[i] = m->clone();
+			std::cout << CYAN << "==> " << this->_name << " equiped with " 
+						<< m->getType() << " materia in slot " << i 
+						<< RESET << std::endl;
 			return ;
 		}
-		//if they try to add a materia to a full inventory -> nothing happens
-		//if inventory is full
-		std::cout << "Cannot equip materia, " << this->_name 
-					<< "'s inventory is full" << std::endl;
-	}
-	else
-		std::cout << "Invalid materia" << std::endl;
-		
+	}	
+	//if inventory is full -> nothing happens
+	std::cout << RED <<  "==> Cannot equip materia, " << this->_name 
+				<< "'s inventory is full" << RESET << std::endl;
 }
 
 /**
@@ -160,6 +181,8 @@ void	Character::equip(AMateria* m)
  * 			- If _inventory[idx] -> slot vacio, return
  * 			- Guardar el puntero en algún lado, pero no borrar
  * 			- Asignar _inventory[idx] a null
+ * 			
+ * 			El subject exige que no se haga delete aquí
  * 
  * @param idx	Slot index (0...3)
  * 
@@ -171,23 +194,45 @@ void	Character::unequip(int idx)
 	//if they use/unequip a non-existent materia -> nothing happens
 	if (idx < 0 || idx >= 4)
 	{
-		std::cout << "Cannot unequip materia, invalid index" << std::endl;
+		std::cout << RED << "==> Cannot unequip materia, invalid index" 
+					<< RESET << std::endl;
 		return ;
 	}
 	if (!this->_inventory[idx])
 	{
-		std::cout << "Cannot unequio materia, empty slot" << std::endl;
+		std::cout << RED << "==> Cannot unequip materia, slot " << idx << " is empty"
+					<< RESET << std::endl;
 		return ;
 	}
 	//guardar puntero en algun lugar (devolverlo o añadirlo a una lista suelo)
-	//pero no borrarlo
+	//pero no borrarlo!! 
+	this->_floor.push_back(this->_inventory[idx]); //guardar puntero
+	std::cout << CYAN << "==> Unequiped " << this->_inventory[idx]->getType()
+				<< " from " << this->_name << "'s inventory at index "
+				<< idx << RESET << std::endl;
 	this->_inventory[idx] = NULL;
-	std::cout << "Unequiped " << this->_inventory[idx]->getType()
-				<< " from" << this->_name << "'s inventory at index "
-				<< idx << std::endl;
 }
+
+/**
+ * @brief 
+ * 
+ * @param idx
+ * @param target
+ */
 
 void	Character::use(int idx, ICharacter& target)
 {
-	//
+	if (idx < 0 || idx >= 4)
+	{
+		std::cout << RED << "==> Cannot use materia, invalid index" 
+					<< RESET << std::endl;
+		return ;
+	}
+	if (!this->_inventory[idx])
+	{
+		std::cout << RED << "==> Cannot use materia, slot " << idx << " is empty"
+					<< RESET << std::endl;
+		return ;
+	}
+	this->_inventory[idx]->use(target);
 }
