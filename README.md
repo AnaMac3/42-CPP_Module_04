@@ -1,170 +1,224 @@
 # 42-CPP_Module_04
 42 Common Core CPP Module 02.  
-- Object-Oriented Programming in C++
 - Polymorphism
 - Abstract classes
 - Interfaces
-
-- 
+- Memory management
+ 
 ## Table of Contents
-- [](#)
-- [](#f)
-- [](#f)
-- [More info](#more-info)
+- [Polymorphism and Deep Copy](polymorphism-and-deep-copy)
+- [Abstract Classes](#abstract-classes)
+- [Interfaces](#interfaces)
+- [Abstract Classes vs Interfaces](#abstract-classes-vs-interfaces)
+- [Ownership](#ownership)
+- [Dependencies](#dependencies)
+  - [ex03: Classes and Dependencies](#ex03:-classes-and-dependencies)
+  - [Dependency Diagram](dependency-diagram)
+- [More things](#more-things)
+  - [Some Good Practices](#some-good-practices)
+  - [About std::vector](#about-std::vector)
 
 ----------------------------------------
 
---> Buenas prácticas:
-- En los métodos miembro/funciones usar referencias para evitar copias innecesarias
-- Usar const siempre que no se vaya a tener que modificar las variables de turno, por buenas prácticas tb
+## Polymorphism and Deep copy
+Polymorphism lets us work with objects through base-class pointers/references while calling the correct derived implementation at runtime.  
+This requires careful resource management when objects own dynamically allocated memory.
 
----> cuándo tenemos que declarar un destructor como virtual?
+- Sallow copy: only the pointer is copied -> two objects share the same resource -> leads to double-delete errors.
+- Deep copy: creates a *new* independent resource -> each object owns its own memory.
 
---> cosas nuevas; std::copy de algorithm
---> std::array<std::string, 100>
---> clases no instanciables...  
+**Example: deep copy in constructor**:
 
-### Polymorphism -> Deep copy
---> deep copy para que cada objeto de clase hija tenga su objeto Brain independiente?¡
-- Shallow copy: only copies the pointers, not the content. Two different objects point to the same memory resource. Esto provoca problemas al liberar memoria (doble delete)
-
-            this->_brain = other._brain;
-  
-- Deep copy: a new independent copy of the resource is created. Each object has its own memory.
-  - En la inicialización:
-  - 
            this->brain = new Brain(*other._brain)
-  - En la copia:
+
+**Example: deep copy in assignment operator**:
     
-            Cat&	Cat::operator=(const Cat& other)
-            {
-            	std::cout << GREEN << "Cat Assignment Operator called" 
-            				<< RESET << std::endl;
-            	if (this != &other)
-            	{
-            		Animal::operator=(other);
-            		*this->_brain = *other._brain;
-            	}
-            	return (*this);
-            } 
+	Cat& Cat::operator=(const Cat& other)
+	{
+		if (this != &other)
+		{
+			Animal::operator=(other); //copy base part
+			delete this->_brain; //prevent memory leak
+			*this->_brain = *other._brain; //deep copy
+		}
+		return (*this);
+	} 
 
-  -> esto es deep copy también?:
+**Example: deep copy for inventory**:
   
-                          Character&	Character::operator=(const Character& other)
-                        {
-                        	//std::cout << "Character Assignment Operator called" << std::endl;
-                        	if (this != &other)
-                        	{
-                        		this->_name = other._name;
-                        		*this->_inventory = *other._inventory; //deep copy of inventory
-                        	}
-                        	return (*this);
-                        }
+	Character& Character::operator=(const Character& other)
+	{
+		if (this != &other)
+		{
+			this->_name = other._name;
+			for (int i = 0; i < 4; i++)
+			{
+				delete this->_inventory[i ];
+				this->_inventory[i] = other._inventory[i]->clone();
+			}
+		}
+		return *this;
+	}
 
 
-### Clases abstractas
+## Abstract Classes
 
-Las clases abstractas son clases que no pueden crearse directamente (no puedes hacer ***new*** de ellas). Solo sirven como clase base para otras clases.  
-Cuando una clase tiene como mínimo un método virtual puro (=0) es una clase abstracta. Un método virtual puro se trata de una función que no es implementada por la clase base, que se instancia pero no se implementa, se instancia con = 0; son las clases derivadas las que lo implementan.  
-Características:
-- Pueden tener métodos abstractos (virtuales puros, declarados, pero sin implementación) y también métodos normales con código definido.
-- Pueden tener atributos y constructores
-- Una clase que hereda de una clase abstracta debe implementar todos los métodos abstractos que no tengan cuerpo.
- 
---> Qué significa que no se pueda instanciar una clase? Que no puedes instanciar directamente esa clase, es decir, no puedes hacer Animal a;
-pero si puedes hacer:
-Animal* pets[10];
-pets[i] = new Dog();
+An Abstract class is a base class that cannot be instantiated directly.
+- The act as **base contracts** for derived classes.
+- They must have at least one **pure virtual function (=0)**.
+- They can also have:
+  - Concrete (non-virtual) methods
+  - Attributes and constructors
+  - Destructors (should be virtual if polymorphic for proper cleanup)
 
-Poner los constructores en protected es otra estrategia para evitar que la clase se pueda instanciar directamente, aunque no haya funciones puras. 
+**Example**:
 
-En una función polimórfica, el destructor ha de ser públic y virtual, para permitir delete polimórfico. 
-- Si trabajamos con punteros a la base ...
+	class Animal
+	{
+		public:
+			virtual Brain &getBrain() const = 0; //pure virtual method
+	}
 
-El operador de asignación = y el constructor de copia no hace falta que sean protected. Una clase abstracta sigue pudiendo copiarse o asignarse mientras tengas una instancia válida, es decir, una clase hija concreta. Mejor que sean públicos, porque  las clases hijas concretas pueden necesitarlos. -> CUÁNDO DEBEN ESTAR EN PROTECTED O EN PUBLIC ESTOS ELEMENTOS??  
-Se usan las clases abstractas cuando hay una relación jerárquica clara entre clases.
+**Derived implementation**:
 
+	Brain& Dog::getBrain() const
+	{
+		return *this->_brain;
+	}
 
-### Interfaces
-Una interfaz es una clase abstracta pura:
-- Una clase que solo declara métodos virtuales puros (=0), no implementa ningún método
-- No tiene implementación propia (o casi nada)
-- Sirve como contrato: obliga a las clases derivadas a implementar esos métodos.
-Características importantes:
-- No instanciables, solo punteros o referencias
-- Polimorfismo: puedes usar un puntero o referencia a la interfaz para manejar objetos de distintas clases.
-- Herencia múltiple: una clase puede implementar varias interfaces.
-Convención de nombres: prefijo I
-- No tienen atributos de instancia (solo constantes)
+Sometimes abstract classes have **protected constructors** to prevent instantiation, even without pure virtual methods.
 
-Las interfaces se usan cuando quieres definir un comportamiento común que varias clases muy diferentes deben cumplir. Por ejemplo, una interfaz Imprimible con un método imprimir(); clases como factura, Reporte, Etiqueta la implementan, cada una a su manera. Se usa una interfaz cuando quieres que clases sin relación compartan comportamientos.
+**What means you cannot instantiate a class?**
+You cannot:
 
-### Diferencia entre clases abstractas e interfaces:
-- Clases abstractas:
-  - Tiene al menos un método virtual puro (=0)
-  - Puede tener:
-    - Métodos con implementación
-    - Atributos/miembros de datos
-    - Constructores (aunque no se pueden instanciar)
-  - Se usa cuando quieres dar a las clases hijas un contrato (qué métodos deben implementar) y también cierta lógica común. Cuando hay una relación jerárquica clara entre clases.
-- Intefaz:
-  - Es una clase abstracta pura:
-    - Todos sus métodos son virtuales puros (=0)
-    - No tiene atributos de instancia (salvo constantes o static)
-  - Solo define el contrato, qué debe implementar la clase hija, sin dar ninguna implementación por defecto.
-  - Se usa cuando quieres que clases sin relación compartan comportamientos.
+	Animal a;
+	a = new Animal;
+	
+You can:
+
+	Animal* pets[10];
+	pets[i] = new Dog();
+
+And also:
+
+	void makeSpeak(Animal& a)
+	{
+		//Polymorphic call
+	}
+
+	Dog d;
+	makeSpeak(d);
 
 
-### Otras cosas
-- **Dependencias circulares**: EN el ejercicio ex03: ICharacter.hpp tiene un #include "AMateria.hpp"; y AMateria.hpp también tiene un include "ICharacter.hpp" -> esto provoca que los headers se persigan mutuamente y da error de compilación. Solución: forward declaration: cuando una clase solo necesita manejar punteros o referencias a otra clas,e no hace falta incluir el header completo; basta con declarar su existencia:
-  - EN ICharacter.hpp, en vez de hacer include, poner class AMateria;
- 
-  Regla práctica:
-  - si en el header usas punteros o referencias: usar forward declaration en vez de include
-  - si en el header usas objetos directamente (por valor), o accedes a sus métodos/atributos inline, necesitas #include
-  
+## Interfaces
 
+An interface is a pure abstract class:
+- All methods are pure virtual (=0)
+- No instance attributes (except constants)
+- Acts as a contract only
+Features:
+- Cannot be instantiated
+- Can be used as pointers/references to enable polymorphism
+- Supports multiple inheritance
 
-Más cosas...->
-- Qué es el rollo de ownership?
-- 
+The interfaces are used when you want to define a behaviour common to several very different classes.  
+For example: an interface IPrintable could be implemented by unrelated classes like Invoice, Report, or Label.
 
-### ex03
-**Clases y sus dependencias**  
+### Abstract Classes vs Interfaces
+
+| **Abstract Classes**  | **Interfaces** | 
+|-----------------------|----------------|
+| At least one pure virtual method | 100% pure virtual methods |
+| Can contain logic, attributes, constructors | No attributes (except constants/static) |
+| Used when there's a hierarchical relation | Used when classes share behaviour but not hierarchy |
+
+## Ownership
+
+**Ownership** defines which class is responsible for freeing memory.
+
+	class Materia 
+	{
+		public:
+		    virtual ~Materia() {}
+	};
+	
+	class Character 
+	{
+			Materia* _inventory[4];
+		public:
+		    Character() 
+		    { 
+		    	for (int i = 0; i < 4; i++) 
+				_inventory[i] = NULL; 
+		    }
+		    ~Character() 
+		    {
+		    	for (int i = 0; i < 4; i++)
+			delete _inventory[i]; // Frees the *Materia
+		    }
+		    void equip(Materia* m) //receives de Materia*
+		    {
+	        		for (int i = 0; i < 4; i++) 
+			{
+	            		if (!_inventory[i]) 
+				{
+	                			_inventory[i] = m; //stores the *Materia
+	                		break;
+	            		}
+			}
+		}
+	};
+
+- Character receives a Materia*
+- The Character stores that pointer and owns it
+- When the Character dies, frees the memory of all the pointers of the inventory
+
+## Dependencies
+
+A **dependency** means a class uses another class's functionallity.
+Circular dependencies occur when two classes depends on each other.
+
+Example in ex03: 
+- ICharacter.hpp included AMateria.hpp
+- AMateria.hpp also includes ICharacter.hpp
+Solution:
+- Use **forward declarations** when only pointers/references are needed
+- Use #include only if you need the full definition 
+
+### ex03: Classes and Dependencies
 - AMateria:
-  - Clase base abstracta (método virtual puro clone())
-  - Clase base para tipos concretos: Ice y Cure
-  - Depende de:
-    - ICharacter (en use(ICharacter& target))
-- Ice y Cure:
-  - Heredan de AMateeria
-  - Implementan clone() y sobreescriven use()
-  - Dependencia: AMateria
+  - Abstract base class (clone(): virtual pure)
+  - Derived classes: Ice y Cure
+  - Depends on:
+    - ICharacter (in use(ICharacter& target))
+- Ice / Cure:
+  - Concrete classes inheriting from AMateria
+  - Implement clone() and override use()
 - ICharacter:
-  - Interfaz abstracta
-  - Define métodos virtuales puros: getName(), equip(), unequip(), use()
-  - No tiene dependencias directas a clases concretas, pero define interacción con AMateria
+  - Interface for characters
+  - Declares pure virtual methods: getName(), equip(), unequip(), use()
+  - Doesn't have direct dependencies, but defines the interaction with AMateria
 - Character:
-  - Implementa ICharacter
-  - Tiene:
-    - _inventory[4]: punteros a AMateria
-    - _floor: vector de punteros a AMateria*
-  - Dependencias:
-    - AMateria (punteros y clonación)
+  - Implements ICharacter
+  - Owns:
+    - _inventory[4]: pointers to AMateria
+    - _floor: vector of pointers to AMateria*
+  - Dependencies:
+    - AMateria (pointers and clonation)
     - ICharacter
 - IMateriaSource
-  - Interfaz abstracta
-  - Define métodos virtuales puros: learnMateria(), createMateria()
-  - No tiene dependencias directas a clases concretas, pero define interacción con AMateria
+  - Interface for MateriaSource
+  - Declares virtual pure methods: learnMateria(), createMateria()
+  - Doesn't have direct dependencies, but defines the interaction with AMateria
 - MateriaSource
-  - Implementa IMateriaSource
-  - Tiene:
-    - _list[4]: punteros a AMateria
-  - Dependencias:
-    - AMateria (punteros y clonación)
+  - Implements IMateriaSource
+  - Owns:
+    - _list[4]: pointers to AMateria
+  - Dependencies:
+    - AMateria (pointers and clonation)
     - IMateriaSource
 
-**Diagrama de dependencias entre clases de ex03**
+### Dependency Diagram
 
 ```mermaid
 
@@ -240,41 +294,53 @@ classDiagram
 
 
 ```
+## More things
 
-### Otras cosas...: std::vector
-std::vector es un contenedor dinámico de la Standard Template Library. Guarda los elementos en memoria contigua (como un array normal) pero puede cambiar de tamaño automáticamente. Lo usamos cuando no sabemos cuántos elementos habrá, a diferencia de un array fijo (array[4]).
+## Some Good Practices
+- Use references in function/method parameters to avoid unnecessary copies
+- Use const whenever possible to signal immutability and enforce safer code
+- Always declare destructors as ***virtual*** in base classes meant for polymorphism, so that deleting through a base pointer correctly calls the derived destructor
+
+## About std::vector
+std::vector is a dynamic array in the C++ Standard Template Library.
+- Stores elements in continuos memory
+- Automatically resizes
+- Provides random access like a normal array
+
+**Some methods (C++98)**:  
+- push_back(value): add at the end
+- size(): number of elements
+- empty(): true if vector is empty
+- operator[index]: unchecked access
+- at(index): checked access
+- front(): first element
+- back(): last element
+- pop_back(): remove last element
+- clear(): remove all elements
+- erase(iterator): remove eleent at position
+- begin(): first element
+- end(): after the last element (end of range)
 
 Example:
 
-            #include <vector>
-            #include <iostream>
+	#include <vector>
+	#include <iostream>
             
-            int main()
-            {
-                        std::vector<int> numbers;
-            
-                        numbers.push_back(10); //adds at the end
-                        numbers.push_back(20);
-                        numbers.push_back(30);
-            
-                        std::cout << "Size: " << numbers.size() << std::endl; //3
-                        std::cout << "First element: " << numbers[0] << std::endl; //10
-            }
+	int main()
+	{
+		std::vector<int> numbers;
+	
+		numbers.push_back(10); //adds at the end
+		numbers.push_back(20);
+		numbers.push_back(30);
+	
+		std::cout << "Size: " << numbers.size() << std::endl; //3
+		std::cout << "First element: " << numbers[0] << std::endl; //10
+	
+		//iteration
+		for (std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); ++it)
+			std::cout << *it << std::endl;
+		
+	}
 
-**Métodos importantes de std::vector (C++98)**:  
-- push_back(value): añade al final
-- size(): devuelve número de elementos almacenados
-- empty(): true si está vacío
-- operator[index]: acceso directo sin comprobación
-- at(index): acceso con comprobación de limites
-- front(): primer elemento
-- back(): último elemento
-- pop_back(): borrar el último elemento
-- clear(): borrar todos los elementos
-- erase(iterator): borra elemento en esa posición
-- begin(): primer elemento
-- end(): uno después del último (fin del rango)
 
-+ PONER UN EJEMPLO DE COMO ITERAR EN UN VECTOR...
-
-### More info
