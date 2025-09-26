@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 09:51:46 by root              #+#    #+#             */
-/*   Updated: 2025/09/26 12:50:22 by root             ###   ########.fr       */
+/*   Updated: 2025/09/26 16:45:59 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,50 @@
 # define BG_GREEN	"\033[42m"
 # define RESET		"\033[0m"
 
+
 /**
  * @class	AMateria
- * @brief	Abstract class which represents a generic "materia".
- * 			This is the base class for the concrete types of materia (Ice, Cure).
- * 			Provies:
+ * @brief	Abstract base class which representing a generic "materia".
+ * 			Provides:
  * 			- A type identifier
- * 			- A clone interface to allow deep copies for runtime type
- * 			- A virtual method use() which aplies the efect upon a ICharacter
+ * 			- A polymorphic clone() method so that derived classes can be 
+ * 			duplicated at runtime while preserving their dynamic type
+ * 			- A virtual method use() method that derived classes override
+ * 			to apply concrete effects to a character
  * 
- * 			Properties:
- * 			- Ownership: the class doesn't free the materias pointed by others;
- * 			who creates a new AMateria must decide if transfers the ownership (?¿¿?)
- * 			- clone(): key method for implementing deep copy in classes with
- * 			pointers to AMateria
- * 			- Copy constructor and operator= are public to allow copies from
- * 			outside
+ * 			Ownership and memory:
+ * 			- AMateria itself does not take ownership of Materia pointers
+ * 			passed to other parts of the program; it is the caller's
+ * 			responsability to manage lifetime unless the pointer is 
+ * 			explicity cloned and stored by a class (MateriaSource or
+ * 			Character)
+ * 			
+ * 			- clone() is pure virtual; makes AMateria abstract (non-instantiable)
+ * 			- Copy constructor and assignment operator are public to allow
+ * 			explicit copying/cloning when needed
+ * 			- The default constructor is protected to indicate AMateria is
+ * 			intended to be a base class
  */
 
 class AMateria
 {
 	protected:
-		AMateria(); //para que no se creen instancias directamente de AMateria, las subclases pueden llamarlo. No es necesario (porque clone es pure virtual), pero da claridad y robustez
+		AMateria();
 
 		std::string _type;
 
 	public:
-		AMateria(std::string const &type); //las subclases lo llaman para inicializar con su type
+		AMateria(std::string const &type);
 
-		AMateria(const AMateria& other); //copias y asignement: suelen ser public porque permiten copiar desde punteros o referencias a AMateria
+		AMateria(const AMateria& other);
 		AMateria& operator=(const AMateria& other);
 
 		virtual ~AMateria();
 
-		std::string const &getType() const; //returns the materia type
+		std::string const &getType() const;
 
-		virtual AMateria* clone() const = 0; //pure virtual -> returns a pointer to a new instance of the same dynamic obj
-		virtual void use(ICharacter& target); //uses interface...
+		virtual AMateria* clone() const = 0;
+		virtual void use(ICharacter& target);
 };
 
 #endif

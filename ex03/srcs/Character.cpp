@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 09:51:34 by root              #+#    #+#             */
-/*   Updated: 2025/09/26 12:35:04 by root             ###   ########.fr       */
+/*   Updated: 2025/09/26 17:21:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief	Default constructor
- * 
+ * 			- Initializes all inventory slots to NULL
  */
 
 Character::Character() : _name("default")
@@ -27,7 +27,8 @@ Character::Character() : _name("default")
 
 /**
  * @brief	Name Constructor
- * 			DEBERIA INICIALIZAR CADA OBJETO DE AMATERIA (_INVENTORY) EN NULL?
+ * 			- Initializes name to provided parameter
+ * 			- Sets all inventory slots to NULL
  */
 
 Character::Character(std::string const &name) : _name(name)
@@ -41,11 +42,10 @@ Character::Character(std::string const &name) : _name(name)
 
 /**
  * @brief	Copy Constructor (deep copy)
- * 			IMPLEMENTACIÓN RECOMENDADA:
- * 				- Inicializar _inventory a nullptr
- * 				- copiar _name
- * 				- clonar inventorys -> por qué clonar ?? para no hacer shallow copy
- * 	por qué aquí no puedo utilizar directamente el asignment operator??
+ * 			- Initializes inventory to NULL
+ * 			- Delegates to assignment operator to copy content
+ * 
+ * @param other	Character to copy from
  */
 
 Character::Character(const Character& other)
@@ -60,14 +60,12 @@ Character::Character(const Character& other)
 
 /**
  * @brief	Assignment operator
- * 			- IMPLEMENTACIÓN RECOMENDADA:
- * 			- si this y other no son iguales, seguir
- * 			- copiar _name
- * 			- si hay AMateria en los inventarios, deletearlos
- * 			- cclonarlos
+ * 			- Deletes existing Materias in inventory
+ * 			- Clones Materias from other into this inventory
+ * 			- Copies character name
  * 
- * @param other
- * @return Reference to the current object
+ * @param other	Character to assign from
+ * @return Reference to this Character
  */
 
 Character&	Character::operator=(const Character& other)
@@ -78,7 +76,7 @@ Character&	Character::operator=(const Character& other)
 	if (this != &other)
 	{
 		this->_name = other.getName();
-		for (int i = 0; i < 4; i ++) //si el Character actual tiene AMaterias en el inventario, borrarlos
+		for (int i = 0; i < 4; i ++)
 		{
 			if (this->_inventory[i])
 				delete this->_inventory[i];
@@ -93,8 +91,8 @@ Character&	Character::operator=(const Character& other)
 
 /**
  * @brief	Default destructor
- * 			- deletes all the equiped materias in _inventory
- * 			- debe liberar las materias unequiped que están en _floor
+ * 			- Deletes all the equiped materias in _inventory
+ * 			- Iterates over _floor to delete unequipped Materias
  */
 
 Character::~Character()
@@ -107,19 +105,15 @@ Character::~Character()
 		if (_inventory[i])
 			delete _inventory[i];
 	}
-	//iterar _floor para liberar las materias unequipadas
-	std::vector<AMateria*>::iterator it; //qué es esto??
-	for(it = _floor.begin(); it != _floor.end(); ++it) //explicar lógica
-	{
+	std::vector<AMateria*>::iterator it;
+	for(it = _floor.begin(); it != _floor.end(); ++it)
 		delete *it;
-	}
-	
 }
 
 /**
  * @brief	Set the name for the Character
  * 
- * @param name	New name
+ * @param name	New name for the character
  */
 
 void	Character::setName(std::string const &name)
@@ -130,7 +124,7 @@ void	Character::setName(std::string const &name)
 /**
  * @brief	Get the name of the Character
  * 
- * @return	Reference to constant name
+ * @return	Constant reference to name
  */
 
 std::string const &Character::getName() const
@@ -139,26 +133,23 @@ std::string const &Character::getName() const
 }
 
 /**
- * @brief	Equipa la materia 'm' en el primer slot vacío
- * 			- Si no hay m, no hace nada
- * 			- Si m ya está en el inventario (comparación de punteros),
- * 			return (evita duplicar)	
- * 			- Si m no está en el inventario, y tenemos un slot vacio,
- * 			lo clonamos en el primer slot vacio
- * 			- Si se termina el bucle (inventario lleno) -> no hace nada
+ * @brief	Equip a Materia into the first free slot.
+ * 			- Clones m to avoid shallow copy
+ * 			- If no free slots, does nothing
  * 
  * 			- Ownership: the Character is responsible of the 'm' pointer,
  * 			except if it is later unequiped
+ * 
+ * @param m	Pointer to the Materia to equip
  */
 
 void	Character::equip(AMateria* m)
 {
-	if (m == NULL)
+	if (!m)
 	{
 		std::cout << RED << "==> Invalid materia" << RESET << std::endl;
 		return ;
 	}
-	//meten la Materia en el pprimer slot vacio del inventory que haya - de 0 a 3
 	for (int i = 0; i < 4; i ++)
 	{
 		if (this->_inventory[i] == NULL)
@@ -170,28 +161,27 @@ void	Character::equip(AMateria* m)
 			return ;
 		}
 	}	
-	//if inventory is full -> nothing happens
 	std::cout << RED <<  "==> Cannot equip materia, " << this->_name 
 				<< "'s inventory is full" << RESET << std::endl;
 }
 
 /**
- * @brief	Desequipa la materia en la posición idx sin borrarla
- * 			- If idx < 0 || idx >= 4 -> return (invalid index)
- * 			- If _inventory[idx] -> slot vacio, return
- * 			- Guardar el puntero en algún lado, pero no borrar
- * 			- Asignar _inventory[idx] a null
- * 			
- * 			El subject exige que no se haga delete aquí
+ * @brief	Unequip a Materia from given slot index without deleting
+ * 			the AMateria
  * 
- * @param idx	Slot index (0...3)
+ * 			- If the index is invalid, returns
+ * 			- If the slot is empty, returns
+ * 			- Does not delete the Materia
+ * 			- Stores pointer into _floor vector via push_back, for later cleanup
+ * 			- Sets the slot to NULL
+ * 			
+ * 
+ * @param idx	Slot index (0..3)
  * 
  */
 
 void	Character::unequip(int idx)
 {
-	//must not delete the materia
-	//if they use/unequip a non-existent materia -> nothing happens
 	if (idx < 0 || idx >= 4)
 	{
 		std::cout << RED << "==> Cannot unequip materia, invalid index" 
@@ -204,9 +194,7 @@ void	Character::unequip(int idx)
 					<< RESET << std::endl;
 		return ;
 	}
-	//guardar puntero en algun lugar (devolverlo o añadirlo a una lista suelo)
-	//pero no borrarlo!! 
-	this->_floor.push_back(this->_inventory[idx]); //guardar puntero
+	this->_floor.push_back(this->_inventory[idx]);
 	std::cout << CYAN << "==> Unequiped " << this->_inventory[idx]->getType()
 				<< " from " << this->_name << "'s inventory at index "
 				<< idx << RESET << std::endl;
@@ -214,10 +202,12 @@ void	Character::unequip(int idx)
 }
 
 /**
- * @brief 
+ * @brief	Use a Materia on a target
+ * 			- If index invalid or slot empty, does nothing
+ * 			- Otherwise delegates to AMateria::use
  * 
- * @param idx
- * @param target
+ * @param idx	Slot index (0..3)
+ * @param target	Target character on which to apply the Materia
  */
 
 void	Character::use(int idx, ICharacter& target)

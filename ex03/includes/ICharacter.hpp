@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 09:51:43 by root              #+#    #+#             */
-/*   Updated: 2025/09/26 10:21:31 by root             ###   ########.fr       */
+/*   Updated: 2025/09/26 17:05:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@ class AMateria;
 
 /**
  * @class	ICharacter
- * @brief	Interface abstracta que define la API pública de un personaje
- * 			(¿Qué es la API publica de un personaje)
- * 			- getter for name
- * 			- equip -...
- * 			- unequip
- * 			- use a materia on other character (a target)
+ * @brief	Abstract interface that defines the public API (Application
+ * 			Programming Interface) of a character.
+ * 			- Provides a getter for the character's name
+ * 			- Allow equipping and unequipping Materias
+ * 			- Allow using a Materia on a target character
  * 
- * 			Pure virtual -> la clase concreta debe implementar estos métodos
- * 
- * 			- Must have a virtual destructor to allow the delete through pointers
- * 			to the interface
- * 			- AQUÍ NO SE USA LA ORTODOX CANONICAL FORM PORQUE EN EL SUBJECT 
- * 			SE ESPECIFICA ESTA FORMA PARA LA CLASE ICHARACTER.
+ * 			- Pure virtual methods: every concrete subclass must implement
+ * 			them.
+ * 			- A virtual destructor is mandatory: deleting through an 
+ * 			ICharacter pointer must correctly invoke the derived class
+ * 			destructor
  * 
  */
 

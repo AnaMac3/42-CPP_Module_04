@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 10:26:56 by root              #+#    #+#             */
-/*   Updated: 2025/09/26 13:04:49 by root             ###   ########.fr       */
+/*   Updated: 2025/09/26 16:17:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@
 
 /**
  * @class	MateriaSource
- * @brief	
- * 			learnMateria(AMateria*) copia la Materia pasada como parametro
- * 		y la guarda en memoria para poder clonarla después. COmo Character, MateriaSource
- * 		puede guardar hasa 4 Materias. No son necesariamente únicas.
- * 		-...
- * 		learnMateria: se le pasan materias y las guarda
- * 		createMateria: se busca si ya se ha aprendido esa materia y devuelve
- * 		un nuevo objeto clonado
- * 		si no conoce ese tipo, devuelve nullptr
- * 		MateriaSource almacena templates (clones) para poder fabricar nuevos
- * 		objetos idénticos cuando se soliciten.
+ * @brief	Concrete implementation of IMateriaSource that can learn and
+ * 			create Materias.
+ * 			- Stores up to 4 "template" Materias (copies of those passed to
+ * 			learnMateria)
+ * 			- Creates a new Materias on demand by clonning the stored templates
+ * 			via createMateria.
+ * 
+ * 			- Uses a fixed-size array of 4 pointers (_list) to store learned
+ * 			Materias
+ * 			- Owns the memory of stored Materias (closne); ensures proper
+ * 			cleanup in destructor and assignment operator.
+ * 
+ * 			- Depends on AMateria (via pointers and clone() calls)
+ * 			- Inherits from IMateriaSource to comply with the required 
+ * 			interface
  * 
  */
 

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 09:51:39 by root              #+#    #+#             */
-/*   Updated: 2025/09/26 11:01:43 by root             ###   ########.fr       */
+/*   Updated: 2025/09/26 17:11:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,37 @@
 
 /**
  * @class	Character
- * @brief	Implementación concreta de ICharacter con inventario de 4 slots.
- * 			- Inventario de tamaño fijo
- * 			- Al construir, todos los slots se inicializan en vacío
- * 			- equip(AMateria* m)
- * 				- 
+ * @brief	Concrete implementatio of ICharacter with a fixed-size inventory
+ * 			- _inventory contains 4 slots initialized to NULL
+ * 			- equip(m) places a clone of m in the first available slot of
+ * 			_inventory
+ * 			- unequip(idx) removes the pointer from the inventory slot
+ * 			without deleting it; the pointer is stored in _floor dynamic
+ * 			vector to preserve the ownership
+ * 			- use(idx, target) invokes the AMateria::use function of the 
+ * 			Materia in the given slot, passing target as argument
  * 
- * 			POSEES AN INVENTORY OF 4 SLOTS -> AT MOST 4 MATERIAS.
- * 			IS EMPTY UPON CONSTRUCTION
- * 			THEY EQUIP THE MATERIAS IN THE FIRST EMPTY SLOT THEY FIND,
- * 			IN THE FOLLOWING ORDER: 
- * 			- FROM SLOT 0 TO SLOT 3
- * 			IF THEY TRY TO ADD A MATERIA TO A FULL INVENTORY, OR USE/UNEQUIO
- * 			A NON-EXISTENT MATERIA, NOTHING SHOULD HAPPEN (BUT BUGS ARE STILL FORBIDDEN)
- * 			THE UNEQUIP() MEMBER FUNCTION MUST NOT DELETE THE MATERIA
- * 
+ * 			Memmory management:
+ * 			- Destructor deletes all equipped Materias
+ * 			- Destructor also frees unequiped Materias stored in _floor
+ * 			- Copy constructor and assignment operator perform deep copies
+ * 			
+ * 			Dependencies:
+ * 			- Depends on AMateria (for inventory and floor storage)
+ * 			- Depends on ICharacter (to implement use delegation)
  *
- * 		use(int, ... -> use the Materia at the slot[idx] and pass the target parameter 
- * 					to the AMAteria::use function
- * 
- * 		Constructor taking its name as parameter
- * 		Copy (using copy constructor o copy assignment op) must be deep
- * 		During copy, the Materias of a Character must be deleted before the new ones
- * 		are added to their inventory
- * 		Materias must be deleted when a Character is destroyed
- * 
- * 		cómo funciona vector?
  */
 
 class Character : public ICharacter
 {
 	private:
 		std::string	_name; 
-		AMateria	*_inventory[4]; //puntero a array de 4 objetos AMateria
-		std::vector<AMateria*> _floor; //unequiped materias 
+		AMateria	*_inventory[4];
+		std::vector<AMateria*> _floor;
 
 	public:
 		Character();
-		Character(std::string const &name); //constructor con nombre
+		Character(std::string const &name);
 		Character(const Character& other);
 		Character& operator=(const Character& other);
 		~Character();

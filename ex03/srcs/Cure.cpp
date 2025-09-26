@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Cure.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 16:53:52 by root              #+#    #+#             */
+/*   Updated: 2025/09/26 16:58:54 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Cure.hpp"
 
 /**
  * @brief	Default constructor
- * 			- Calls AMateria with "cure" as initialization type
+ * 			- Calls base AMateria constructor with type "cure" 
  */
 
 Cure::Cure() : AMateria("cure")
@@ -11,20 +23,10 @@ Cure::Cure() : AMateria("cure")
 }
 
 /**
- * @brief	Default destructor
- * 			- Virtual heredado de AMateria
- */
-
-Cure::~Cure()
-{
-	std::cout << GREEN << "Cure Destructor called" << RESET << std::endl;
-}
-
-/**
  * @brief	Copy Constructor
- * 			- delega en = operator.... está bien eso?
+ * 			- uses assignment operator to copy base members 
  * 
- * @param other	Cure to copy
+ * @param other	Source Cure to copy from
  */
 
 Cure::Cure(const Cure& other) : AMateria()
@@ -34,7 +36,9 @@ Cure::Cure(const Cure& other) : AMateria()
 }
 
 /**
- * @brief	Assignation operator
+ * @brief	Assignment operator
+ * 			- Calls AMateria::operator= to copy base-class state
+ * 			- If Cure later contains extra members, copy them here
  * 
  * @param other	Another Cure object to assign from
  * @return	Reference to the current object
@@ -45,19 +49,24 @@ Cure&	Cure::operator=(const Cure& other)
 	std::cout << GREEN << "Cure Assignment Operator called" << RESET << std::endl;
 	
 	if (this != &other)
-	{
 		AMateria::operator=(other);
-		//añadir mas cosas?
-	}
 	return (*this);
 }
 
 /**
- * @brief	Aplies the efect of the cure on the target
- * 			- Implementa el comportamiento concreto
- * 			- No debe gestioonar memoria ajena (qué significa eso?)
+ * @brief	Default destructor
+ * 			- Virtual inhertied from AAMateria
+ */
+
+Cure::~Cure()
+{
+	std::cout << GREEN << "Cure Destructor called" << RESET << std::endl;
+}
+
+/**
+ * @brief	Apply the cure effect on the target
  * 
- * @param target	Target
+ * @param target	Character being healed
  */
 
 void	Cure::use(ICharacter& target)
@@ -67,13 +76,14 @@ void	Cure::use(ICharacter& target)
 }
 
 /**
- * @brief	Clone this Cure
- * 			- Returns heap memory, must be deleted/handled in the caller
+ * @brief	Clone this Cure object
+ * 			- Ensures polymorphic copying: caller receives a pointer to
+ * 			a new Cure object and is responsible for deleting it.
  * 
- * @return	Pointer to a dynamic copy of the same class
+ * @return AMateria*	A new heap-allocated Cure identical to this one
  */
 
-AMateria* Cure::clone() const //return a new instance of the same type
+AMateria* Cure::clone() const
 {
 	std::cout << GREEN << "Cure clone called" << RESET << std::endl;
 	return (new Cure(*this));
