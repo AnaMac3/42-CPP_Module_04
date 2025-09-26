@@ -12,11 +12,11 @@
 - [Abstract Classes vs Interfaces](#abstract-classes-vs-interfaces)
 - [Ownership](#ownership)
 - [Dependencies](#dependencies)
-  - [ex03: Classes and Dependencies](#ex03:-classes-and-dependencies)
+  - [ex03: Classes and Dependencies](#ex03-classes-and-dependencies)
   - [Dependency Diagram](dependency-diagram)
 - [More things](#more-things)
   - [Some Good Practices](#some-good-practices)
-  - [About std::vector](#about-std::vector)
+  - [About std::vector](#about-stdvector)
 
 ----------------------------------------
 
@@ -24,7 +24,7 @@
 Polymorphism lets us work with objects through base-class pointers/references while calling the correct derived implementation at runtime.  
 This requires careful resource management when objects own dynamically allocated memory.
 
-- Sallow copy: only the pointer is copied -> two objects share the same resource -> leads to double-delete errors.
+- Shallow copy: only the pointer is copied -> two objects share the same resource -> leads to double-delete errors.
 - Deep copy: creates a *new* independent resource -> each object owns its own memory.
 
 **Example: deep copy in constructor**:
@@ -39,9 +39,9 @@ This requires careful resource management when objects own dynamically allocated
 		{
 			Animal::operator=(other); //copy base part
 			delete this->_brain; //prevent memory leak
-			*this->_brain = *other._brain; //deep copy
+			*this->_brain = new Brain(*other._brain); //deep copy
 		}
-		return (*this);
+		return *this;
 	} 
 
 **Example: deep copy for inventory**:
@@ -76,8 +76,9 @@ An Abstract class is a base class that cannot be instantiated directly.
 	class Animal
 	{
 		public:
+			virtual ~Anima {}
 			virtual Brain &getBrain() const = 0; //pure virtual method
-	}
+	};
 
 **Derived implementation**:
 
@@ -112,7 +113,7 @@ And also:
 
 ## Interfaces
 
-An interface is a pure abstract class:
+An interface in C++ is implemented as a pure abstract class:
 - All methods are pure virtual (=0)
 - No instance attributes (except constants)
 - Acts as a contract only
@@ -121,7 +122,7 @@ Features:
 - Can be used as pointers/references to enable polymorphism
 - Supports multiple inheritance
 
-The interfaces are used when you want to define a behaviour common to several very different classes.  
+Interfaces are used when you want to define a behaviour common to unrelated classes.  
 For example: an interface IPrintable could be implemented by unrelated classes like Invoice, Report, or Label.
 
 ### Abstract Classes vs Interfaces
@@ -154,29 +155,29 @@ For example: an interface IPrintable could be implemented by unrelated classes l
 		    ~Character() 
 		    {
 		    	for (int i = 0; i < 4; i++)
-			delete _inventory[i]; // Frees the *Materia
+			delete _inventory[i]; // Frees pointer
 		    }
-		    void equip(Materia* m) //receives de Materia*
+		    void equip(Materia* m) //receives Materia*
 		    {
 	        		for (int i = 0; i < 4; i++) 
 			{
 	            		if (!_inventory[i]) 
 				{
-	                			_inventory[i] = m; //stores the *Materia
+	                			_inventory[i] = m; //store pointer
 	                		break;
 	            		}
 			}
 		}
 	};
 
-- Character receives a Materia*
-- The Character stores that pointer and owns it
+- Character receives a Materia* pointer
+- The Character stores the pointer to Materia object and owns it
 - When the Character dies, frees the memory of all the pointers of the inventory
 
 ## Dependencies
 
 A **dependency** means a class uses another class's functionallity.
-Circular dependencies occur when two classes depends on each other.
+Circular dependencies occur when two classes depend on each other.
 
 Example in ex03: 
 - ICharacter.hpp included AMateria.hpp
@@ -189,7 +190,7 @@ Solution:
 - AMateria:
   - Abstract base class (clone(): virtual pure)
   - Derived classes: Ice y Cure
-  - Depends on:
+  - Dependencies:
     - ICharacter (in use(ICharacter& target))
 - Ice / Cure:
   - Concrete classes inheriting from AMateria
@@ -303,11 +304,11 @@ classDiagram
 
 ## About std::vector
 std::vector is a dynamic array in the C++ Standard Template Library.
-- Stores elements in continuos memory
+- Stores elements in continuous memory
 - Automatically resizes
 - Provides random access like a normal array
 
-**Some methods (C++98)**:  
+**Common methods (C++98)**:  
 - push_back(value): add at the end
 - size(): number of elements
 - empty(): true if vector is empty
@@ -317,7 +318,7 @@ std::vector is a dynamic array in the C++ Standard Template Library.
 - back(): last element
 - pop_back(): remove last element
 - clear(): remove all elements
-- erase(iterator): remove eleent at position
+- erase(iterator): remove element at position
 - begin(): first element
 - end(): after the last element (end of range)
 
