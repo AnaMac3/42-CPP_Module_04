@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:51:30 by root              #+#    #+#             */
-/*   Updated: 2025/09/21 17:34:17 by root             ###   ########.fr       */
+/*   Updated: 2025/09/26 18:58:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ Dog&	Dog::operator=(const Dog& other)
 	if (this != &other)
 	{
 		Animal::operator=(other);
-		*this->_brain = *other._brain;
+		delete this->_brain;
+		this->_brain = new Brain(*other._brain);
 	}
 	return (*this);
 }
