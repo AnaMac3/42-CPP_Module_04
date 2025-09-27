@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 13:15:22 by amacarul          #+#    #+#             */
-/*   Updated: 2025/09/26 17:22:13 by root             ###   ########.fr       */
+/*   Updated: 2025/09/27 10:25:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 int main()
 {   
 	std::cout << "==============================" << std::endl;
+	std::cout << "Create MateriaSource and learn materias" << std::endl;
 	
-	//Create MateriaSource and learn materias
-	IMateriaSource* src = new MateriaSource();
-	src->learnMateria(new Ice());
+	IMateriaSource* src = new MateriaSource(); //Constructor MateriaSource
+	src->learnMateria(new Ice()); //Constructor AMateria - Ice + Ice clone -> Constructor AMateria - Copy Constructor Ice - Assignment operator Ice - AMateria
 	src->learnMateria(new Cure());
 	src->learnMateria(new Cure());
 	src->learnMateria(NULL); //Cannot learn NULL materias
@@ -31,12 +31,12 @@ int main()
 
 	std::cout << std::endl;
 	
-	//Create Character
+	std::cout << "Create Character" << std::endl;
 	ICharacter* me = new Character("me");
 
 	std::cout << std::endl;
 	
-	//Create materias from MateriaSource
+	std::cout << "Create materias from MateriaSource" << std::endl;
 	AMateria* tmp;
 	tmp = src->createMateria("ice");
 	me->equip(tmp);
