@@ -6,7 +6,9 @@
 - Memory management
  
 ## Table of Contents
-- [Polymorphism and Deep Copy](polymorphism-and-deep-copy)
+- [Polymorphism](#polymorphism)
+  - []()
+  - []()
 - [Abstract Classes](#abstract-classes)
 - [Interfaces](#interfaces)
 - [Abstract Classes vs Interfaces](#abstract-classes-vs-interfaces)
@@ -20,20 +22,43 @@
 
 ----------------------------------------
 
-## Polymorphism and Deep copy
-Polymorphism lets us work with objects through base-class pointers/references while calling the correct derived implementation at runtime.  
-This requires careful resource management when objects own dynamically allocated memory.
+## Polymorphism
+Polimorfismo: concepto de la programación orientada a objetos que permite que una misma interfaz (una función o un puntero a clase base) tenga múltiples formas de comportamiento, dependiendo del tipo real del objeto con el que se trabaja.Es decir, permite que un objeto de una clase derivada sea tratado como un objeto de su clase base, y que se ejecute el comportamiento correcto (el de la clase derivada) en tiempo de ejecución.  
+Tenemos diferentes tipos de polimorfismo:
+- Polimorfismo en tiempo de compilación (estático): usando sobrecarga (override) de funciones, sobrecarga de operadores y templates (pantillas) (una misma función o clase se adapta a diferentes tipos de datos).
+- Polimorfismo en tiempo de ejecución (dinámico): usando herencia y funciones virtuales.
 
-- Shallow copy: only the pointer is copied -> two objects share the same resource -> leads to double-delete errors.
-- Deep copy: creates a *new* independent resource -> each object owns its own memory.
+### Polimorfismo dinámico
+Se logra cuando tenemos:
+- Herencia: una clase derivada hereda de una clase base
+- Funciones virtuales: permiten que una función definida en la clase base sea sobreescrita en la clase derivada.
+- Requiere del uso de punteros o referencias a la clase base para acceder a objetos derivados.
+- Se resuelve en tiempo de ejecución.
+
+
+### Shallow copy vs Deep copy
+
+Cuando usamos polimorfismmo dinámico, trabajamos con objetos a través de punteros o referencias a clases base. Esto introduce complejidad en la gestión de memoria, especialmente cuando las clases derivadas manejan recursos dinámicos como memoria en el heap.
+This requires careful resource management when objects own dynamically allocated memory.
+- Shallow copy:
+  - only the pointer is copied, not el contenido al que apunta
+  - two objects share the same resource
+  - leads to double-delete errors.
+- Deep copy:
+  - creates a *new* independent resource
+  - each object owns its own memory
+  - evita errores de gestión de memoria
 
 **Example: deep copy in constructor**:
 
-           this->brain = new Brain(*other._brain)
+		Cat::cat(const Cat& other) : Animal(other)
+		{
+			this->brain = new Brain(*other._brain);
+		}
 
 **Example: deep copy in assignment operator**:
     
-	Cat& Cat::operator=(const Cat& other)
+	Cat& Cat::operator=(const Cat& other) : 
 	{
 		if (this != &other)
 		{
@@ -44,7 +69,7 @@ This requires careful resource management when objects own dynamically allocated
 		return *this;
 	} 
 
-**Example: deep copy for inventory**:
+**Example: deep copy for inventory (use of clone() to copy derived objects)**:
   
 	Character& Character::operator=(const Character& other)
 	{
@@ -53,8 +78,8 @@ This requires careful resource management when objects own dynamically allocated
 			this->_name = other._name;
 			for (int i = 0; i < 4; i++)
 			{
-				delete this->_inventory[i ];
-				this->_inventory[i] = other._inventory[i]->clone();
+				delete this->_inventory[i ]; //free current memory
+				this->_inventory[i] = other._inventory[i]->clone(); //deep copy
 			}
 		}
 		return *this;
