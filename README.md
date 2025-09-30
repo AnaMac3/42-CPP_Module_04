@@ -7,8 +7,8 @@
  
 ## Table of Contents
 - [Polymorphism](#polymorphism)
-  - []()
-  - []()
+  - [Dynamic Polymorphism](#dynamic-polymorphism)
+  - [Shallow Copy vs Deep Copy](#shallow-copy-vs-deep-copy)
 - [Abstract Classes](#abstract-classes)
 - [Interfaces](#interfaces)
 - [Abstract Classes vs Interfaces](#abstract-classes-vs-interfaces)
@@ -17,37 +17,40 @@
   - [ex03: Classes and Dependencies](#ex03-classes-and-dependencies)
   - [Dependency Diagram](dependency-diagram)
 - [More things](#more-things)
-  - [Some Good Practices](#some-good-practices)
+  - [Good Practices](#good-practices)
   - [About std::vector](#about-stdvector)
 
 ----------------------------------------
 
 ## Polymorphism
-Polimorfismo: concepto de la programación orientada a objetos que permite que una misma interfaz (una función o un puntero a clase base) tenga múltiples formas de comportamiento, dependiendo del tipo real del objeto con el que se trabaja.Es decir, permite que un objeto de una clase derivada sea tratado como un objeto de su clase base, y que se ejecute el comportamiento correcto (el de la clase derivada) en tiempo de ejecución.  
-Tenemos diferentes tipos de polimorfismo:
-- Polimorfismo en tiempo de compilación (estático): usando sobrecarga (override) de funciones, sobrecarga de operadores y templates (pantillas) (una misma función o clase se adapta a diferentes tipos de datos).
-- Polimorfismo en tiempo de ejecución (dinámico): usando herencia y funciones virtuales.
+Polymorphism is a core concept of object-oriented programming that allows a single interface (such as function or pointer to a base clase) to behave differently depending on the actual derived type of the object at runtime.  
+There are two main types of polymorphism in C++:
+- Compile-time (static) polymorphism:
+  - Achieved through function overloading, operator overloading, and templates.
+  - Resolved at compile time.
+- Runtime (dynamic) polymorphism:
+  - Achieved using inheritance and virtual functions.
+  - Resolved at runtime.
 
-### Polimorfismo dinámico
-Se logra cuando tenemos:
-- Herencia: una clase derivada hereda de una clase base
-- Funciones virtuales: permiten que una función definida en la clase base sea sobreescrita en la clase derivada.
-- Requiere del uso de punteros o referencias a la clase base para acceder a objetos derivados.
-- Se resuelve en tiempo de ejecución.
+### Dynamic Polymorphism
+Dynamic polymorphism works when the following conditions are met:
+- Inheritance: a derived class inherits from a base class
+- Virtual functions: the base class defines at least one virtual function, which can be overriden by the derived class.
+- Base class pointers or references: Acces to the derived objects is done through base cass pointers or references.
+This allows behaviour to be dunamically dispatched depending on the actual type of the objects during execution.
 
 
 ### Shallow copy vs Deep copy
+When using dynamic polymoprhism, we often manipulate objects through pointers or references to base classes. This introduces complexity in memory management, especially when derived classes allocate resources on the heap.
 
-Cuando usamos polimorfismmo dinámico, trabajamos con objetos a través de punteros o referencias a clases base. Esto introduce complejidad en la gestión de memoria, especialmente cuando las clases derivadas manejan recursos dinámicos como memoria en el heap.
-This requires careful resource management when objects own dynamically allocated memory.
 - Shallow copy:
-  - only the pointer is copied, not el contenido al que apunta
-  - two objects share the same resource
-  - leads to double-delete errors.
+  - Only the pointer is copied, not the resource it points to.
+  - Two objects share the same resource.
+  - lThis eads to double-delete, dangling pointers, or unexpected side effects.
 - Deep copy:
-  - creates a *new* independent resource
-  - each object owns its own memory
-  - evita errores de gestión de memoria
+  - A new, independent copy of the resource is created.
+  - Each object owns its own memory.
+  - Prevents memory errors and ensures safer object duplication.
 
 **Example: deep copy in constructor**:
 
@@ -89,11 +92,12 @@ This requires careful resource management when objects own dynamically allocated
 ## Abstract Classes
 
 An Abstract class is a base class that cannot be instantiated directly.
-- The act as **base contracts** for derived classes.
-- They must have at least one **pure virtual function (=0)**.
-- They can also have:
+- Acts as **base contracts** for derived classes.
+- Contains at least one **pure virtual function (=0)**.
+- Can also have:
   - Concrete (non-virtual) methods
-  - Attributes and constructors
+  - Attributes
+  - Constructors
   - Destructors (should be virtual if polymorphic for proper cleanup)
 
 **Example**:
@@ -114,13 +118,12 @@ An Abstract class is a base class that cannot be instantiated directly.
 
 Sometimes abstract classes have **protected constructors** to prevent instantiation, even without pure virtual methods.
 
-**What means you cannot instantiate a class?**
-You cannot:
+You cannot do this:
 
 	Animal a;
-	a = new Animal;
+	Animal *a = new Animal;
 	
-You can:
+But you can do this:
 
 	Animal* pets[10];
 	pets[i] = new Dog();
@@ -129,7 +132,7 @@ And also:
 
 	void makeSpeak(Animal& a)
 	{
-		//Polymorphic call
+		a.speak(); //polymorphic call
 	}
 
 	Dog d;
@@ -138,16 +141,16 @@ And also:
 
 ## Interfaces
 
-An interface in C++ is implemented as a pure abstract class:
+In C++, an interface is implemented as a pure abstract class:
 - All methods are pure virtual (=0)
 - No instance attributes (except constants)
 - Acts as a contract only
 Features:
 - Cannot be instantiated
 - Can be used as pointers/references to enable polymorphism
-- Supports multiple inheritance
+- Supports multiple inheritance to compose behaviors.
 
-Interfaces are used when you want to define a behaviour common to unrelated classes.  
+Interfaces are used when you want to define a **common behavior** across unrelated classes.  
 For example: an interface IPrintable could be implemented by unrelated classes like Invoice, Report, or Label.
 
 ### Abstract Classes vs Interfaces
@@ -160,7 +163,7 @@ For example: an interface IPrintable could be implemented by unrelated classes l
 
 ## Ownership
 
-**Ownership** defines which class is responsible for freeing memory.
+**Ownership** refers to which class is responsible for deallocating memory.
 
 	class Materia 
 	{
@@ -195,21 +198,22 @@ For example: an interface IPrintable could be implemented by unrelated classes l
 		}
 	};
 
-- Character receives a Materia* pointer
-- The Character stores the pointer to Materia object and owns it
-- When the Character dies, frees the memory of all the pointers of the inventory
+Explanation:  
+- Character receives a pointer to Materia object
+- The Character stores the pointer, becoming the owner
+- When the Character is destroyed, it deletes the memory of all the pointers of the inventory
 
 ## Dependencies
 
-A **dependency** means a class uses another class's functionallity.
-Circular dependencies occur when two classes depend on each other.
+A **dependency** exists when a class relies on another for functionallity.
+A **circular dependency** occurs when two classes depend on each other, cauusing compilation issues.
 
 Example in ex03: 
-- ICharacter.hpp included AMateria.hpp
-- AMateria.hpp also includes ICharacter.hpp
+- ICharacter.hpp includes AMateria.hpp
+- AMateria.hpp includes ICharacter.hpp
 Solution:
-- Use **forward declarations** when only pointers/references are needed
-- Use #include only if you need the full definition 
+- Use **forward declarations** (e.g., class ICharacter;) when only pointers/references are needed
+- Use **#include** only if you need the full definition 
 
 ### ex03: Classes and Dependencies
 - AMateria:
