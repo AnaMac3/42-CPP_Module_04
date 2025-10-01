@@ -105,7 +105,7 @@ An Abstract class is a base class that cannot be instantiated directly.
 	class Animal
 	{
 		public:
-			virtual ~Anima {}
+			virtual ~Animal {}
 			virtual Brain &getBrain() const = 0; //pure virtual method
 	};
 
