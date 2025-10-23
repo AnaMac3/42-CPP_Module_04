@@ -205,8 +205,8 @@ Explanation:
 
 ## Dependencies
 
-A **dependency** exists when a class relies on another for functionallity.
-A **circular dependency** occurs when two classes depend on each other, cauusing compilation issues.
+A **dependency** exists when a class relies on another for functionallity.  
+A **circular dependency** occurs when two classes depend on each other, causing compilation issues.
 
 Example in ex03: 
 - ICharacter.hpp includes AMateria.hpp
